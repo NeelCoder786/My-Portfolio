@@ -12,7 +12,7 @@ const playfair = Playfair_Display({
   display: "swap"
 });
 
-const BASE = "https://sarang-space.site";
+const BASE = "https://neelsharmaportfolio";
 
 export const viewport = {
   themeColor: "#ff6b1a",
