@@ -8,15 +8,18 @@ export async function POST(req) {
   try {
     const { email } = await req.json();
 
-    if (!email || !email.includes("@")) {
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(email).trim())) {
       return NextResponse.json({ error: "Invalid email address" }, { status: 400 });
+    }
+    if (!supabaseUrl || !supabaseServiceKey) {
+      return NextResponse.json({ error: "Database is not configured" }, { status: 503 });
     }
 
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
     
     const { data, error } = await supabase
       .from("subscribers")
-      .insert([{ email }])
+      .insert([{ email: String(email).trim().toLowerCase() }])
       .select()
       .single();
 

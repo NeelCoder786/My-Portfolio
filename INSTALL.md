@@ -147,6 +147,7 @@ Open the `.env.local` file you created in your root folder, and fill in the valu
 | **`NEXT_PUBLIC_SUPABASE_ANON_KEY`** | Client anon key | Supabase Dashboard -> Project Settings -> API |
 | **`SUPABASE_SERVICE_ROLE_KEY`** | Database administrator key | Supabase Dashboard -> Project Settings -> API |
 | **`RESEND_API_KEY`** | API key for routing contact emails | Resend Dashboard -> API Keys (`re_...`) |
+| **`RESEND_FROM_EMAIL`** | Verified sender identity for outgoing email | e.g. `Portfolio <hello@yourdomain.com>` |
 | **`ADMIN_PASSWORD`** | Admin panel sign-in password | Set a secure password for `/admin/login` |
 | **`JWT_SECRET`** | Random signing token string | Generate using the script below |
 | **`ADMIN_EMAIL`** | Target email for contact form alerts | e.g. `yourname@gmail.com` |

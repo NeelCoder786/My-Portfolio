@@ -2,9 +2,16 @@ import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import { supabase } from '@/lib/supabase';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 const DAILY_LIMIT = 3;
+
+function escapeHtml(value) {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
 
 function getIP(request) {
   return (
@@ -15,10 +22,28 @@ function getIP(request) {
 }
 
 export async function POST(request) {
-  const { name, email, message } = await request.json();
+  let body;
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
+  }
+  const { name, email, message } = body;
 
   if (!name || !email || !message) {
     return NextResponse.json({ error: 'All fields are required' }, { status: 400 });
+  }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(email))) {
+    return NextResponse.json({ error: 'Invalid email address' }, { status: 400 });
+  }
+  if (!supabase) {
+    return NextResponse.json({ error: 'Database is not configured' }, { status: 503 });
+  }
+  if (!process.env.RESEND_API_KEY) {
+    return NextResponse.json({ error: 'Email service is not configured' }, { status: 503 });
+  }
+  if (!process.env.ADMIN_EMAIL) {
+    return NextResponse.json({ error: 'Admin email is not configured' }, { status: 503 });
   }
 
   // ── Rate limit: max 3 per IP per day ──────────────────────────
@@ -47,8 +72,9 @@ export async function POST(request) {
     }
 
     // Send email
+    const resend = new Resend(process.env.RESEND_API_KEY);
     const { data, error: emailError } = await resend.emails.send({
-      from: 'Portfolio Contact <support@sarang-space.site>',
+      from: process.env.RESEND_FROM_EMAIL || 'Portfolio Contact <onboarding@resend.dev>',
       to: process.env.ADMIN_EMAIL,
       replyTo: email,
       subject: `New message from ${name}`,
@@ -56,11 +82,11 @@ export async function POST(request) {
         <div style="font-family:sans-serif;max-width:600px;margin:0 auto;background:#0d0d0d;color:#fff;padding:32px;border-radius:12px">
           <h2 style="color:#ff6b1a;margin:0 0 24px">New Contact Form Submission</h2>
           <table style="width:100%;border-collapse:collapse">
-            <tr><td style="padding:8px 0;color:#999;width:80px">From</td><td style="padding:8px 0;color:#fff">${name}</td></tr>
-            <tr><td style="padding:8px 0;color:#999">Email</td><td style="padding:8px 0;color:#ff6b1a"><a href="mailto:${email}" style="color:#ff6b1a">${email}</a></td></tr>
+            <tr><td style="padding:8px 0;color:#999;width:80px">From</td><td style="padding:8px 0;color:#fff">${escapeHtml(name)}</td></tr>
+            <tr><td style="padding:8px 0;color:#999">Email</td><td style="padding:8px 0;color:#ff6b1a"><a href="mailto:${encodeURI(String(email))}" style="color:#ff6b1a">${escapeHtml(email)}</a></td></tr>
           </table>
           <hr style="border:1px solid #222;margin:20px 0"/>
-          <p style="color:#ccc;line-height:1.7;white-space:pre-wrap">${message}</p>
+          <p style="color:#ccc;line-height:1.7;white-space:pre-wrap">${escapeHtml(message)}</p>
         </div>
       `,
     });

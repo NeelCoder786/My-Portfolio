@@ -17,6 +17,9 @@ async function isAdmin() {
 }
 
 export async function GET(request) {
+  if (!supabase) {
+    return NextResponse.json([], { status: 200 });
+  }
   const { searchParams } = new URL(request.url);
   const admin = await isAdmin();
 
@@ -35,6 +38,9 @@ export async function GET(request) {
 }
 
 export async function POST(request) {
+  if (!supabase) {
+    return NextResponse.json({ error: 'Database is not configured' }, { status: 503 });
+  }
   if (!(await isAdmin())) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }

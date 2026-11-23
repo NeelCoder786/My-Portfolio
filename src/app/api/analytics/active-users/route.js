@@ -6,6 +6,9 @@ export const fetchCache = 'force-no-store';
 
 export async function GET() {
   try {
+    if (!supabase) {
+      return NextResponse.json({ count: 0, success: false, error: 'Database is not configured' }, { status: 503 });
+    }
     const { data } = await supabase
       .from('settings')
       .select('value')

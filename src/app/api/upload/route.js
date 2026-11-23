@@ -23,6 +23,9 @@ export async function POST(request) {
   if (!(await isAdmin())) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
+  if (!supabase) {
+    return NextResponse.json({ error: 'Database is not configured' }, { status: 503 });
+  }
 
   const formData = await request.formData();
   const file = formData.get('file');
