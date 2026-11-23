@@ -315,7 +315,6 @@ const ProfileCardComponent = ({
             <div className="pc-glare" />
             <div className="pc-content pc-avatar-content">
               <img
-                key={avatarUrl}
                 className="avatar"
                 src={avatarUrl}
                 alt={`${name || 'User'} avatar`}

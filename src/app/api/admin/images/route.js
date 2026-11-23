@@ -19,28 +19,14 @@ async function isAdmin() {
 
 export async function GET() {
   if (!supabase) {
-    return NextResponse.json(
-      { profile: '/photo/neel-profile.png' },
-      { headers: { 'Cache-Control': 'no-store, max-age=0' } }
-    );
+    return NextResponse.json({ profile: '/photo/neel-profile.png' });
   }
   const { data } = await supabase
     .from('settings')
     .select('value')
     .eq('key', 'profile_image')
     .maybeSingle();
-  let value = data?.value;
-  if (typeof value === 'string') {
-    try {
-      value = JSON.parse(value);
-    } catch {
-      value = null;
-    }
-  }
-  return NextResponse.json(
-    value?.profile ? value : { profile: '/photo/neel-profile.png' },
-    { headers: { 'Cache-Control': 'no-store, max-age=0' } }
-  );
+  return NextResponse.json(data?.value || { profile: '/photo/neel-profile.png' });
 }
 
 export async function POST(request) {
