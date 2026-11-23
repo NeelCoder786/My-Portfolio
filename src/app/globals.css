@@ -28,6 +28,31 @@ html, body {
   overflow-x: hidden;
 }
 
+@media (max-width: 1023px) {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    -webkit-tap-highlight-color: transparent;
+    text-rendering: optimizeLegibility;
+  }
+
+  button,
+  a,
+  input,
+  textarea,
+  select {
+    touch-action: manipulation;
+  }
+}
+
+@supports (padding: env(safe-area-inset-bottom)) {
+  body {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
 html {
   scrollbar-width: none;
 }
@@ -148,7 +173,7 @@ html::-webkit-scrollbar { display: none; }
 
 /* ── Utilities to remove inline styles ──────── */
 .hero-clamp-text {
-  font-size: clamp(5rem, 15vw, 13rem);
+  font-size: clamp(3.6rem, 14vw, 13rem);
 }
 
 .hero-perspective {

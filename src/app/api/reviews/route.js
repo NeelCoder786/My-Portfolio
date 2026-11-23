@@ -17,6 +17,9 @@ async function isAdmin() {
 }
 
 export async function GET(request) {
+  if (!supabase) {
+    return NextResponse.json([]);
+  }
   const { searchParams } = new URL(request.url);
   const admin = await isAdmin();
   

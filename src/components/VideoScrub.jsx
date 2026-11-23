@@ -8,11 +8,11 @@ export default function VideoScrub() {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    const isPhone = window.innerWidth <= 480;
+    const isPhone = window.innerWidth <= 1023;
     setIsMobile(isPhone);
     setMounted(true);
 
-    const checkMobile = () => setIsMobile(window.innerWidth <= 480);
+    const checkMobile = () => setIsMobile(window.innerWidth <= 1023);
     window.addEventListener('resize', checkMobile, { passive: true });
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
@@ -31,6 +31,7 @@ export default function VideoScrub() {
     let vel        = 0;
     let frozenSnap = null;
     let activeEl   = fwd;
+    let lastFrame  = 0;
 
     const FREEZE_VEL = 5;
     const PLAY_VEL   = 90;
@@ -106,6 +107,8 @@ export default function VideoScrub() {
 
     const frame = (now) => {
       raf = requestAnimationFrame(frame);
+      if (now - lastFrame < 32) return;
+      lastFrame = now;
       if (!duration) return;
 
       const dt      = Math.max((now - prevT) / 1000, 0.001);

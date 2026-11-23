@@ -2,13 +2,13 @@ import PageShell from "@/components/PageShell";
 import ContactPage from "@/views/contact";
 
 export const metadata = {
-  title:       "Contact — Hire a Portfolio Designer, Website Developer, Video Editor or Photo Editor",
-  description: "Get in touch with Sarang to hire a freelance portfolio designer, website developer, video editor, or photo editor. Available for projects worldwide. Fast response, competitive pricing.",
-  keywords:    ["hire website developer", "hire video editor", "hire photo editor", "hire portfolio designer", "freelance contact", "get quote website design"],
+  title:       "Contact — Hire an AI & Machine Learning Engineer",
+  description: "Get in touch with Neel Sharma for machine learning, deep learning, computer vision, NLP, generative AI, and MLOps projects.",
+  keywords:    ["hire AI engineer", "hire machine learning engineer", "hire deep learning engineer", "hire NLP engineer", "hire MLOps engineer"],
   alternates:  { canonical: "https://sarang-space.site/contact" },
   openGraph: {
-    title: "Hire Sarang — Portfolio Designer, Website Developer, Video Editor & Photo Editor",
-    description: "Contact Sarang for freelance website development, video editing, photo editing, and portfolio design projects. Available worldwide.",
+    title: "Hire Neel Sharma - Portfolio",
+    description: "Contact Neel Sharma for machine learning, deep learning, computer vision, NLP, generative AI, and MLOps projects.",
   },
 };
 

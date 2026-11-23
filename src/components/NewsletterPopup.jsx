@@ -80,7 +80,7 @@ export default function NewsletterPopup() {
           </div>
           <h2 className="text-2xl font-bold text-white mb-2">Join the Newsletter</h2>
           <p className="text-white/60 text-sm leading-relaxed">
-            Get notified whenever I publish new cinematic portfolios, web development tips, or creative design resources.
+            Get notified whenever I publish new AI projects, machine learning insights, or technical resources.
           </p>
         </div>
 

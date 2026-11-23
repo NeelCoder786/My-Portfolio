@@ -111,7 +111,7 @@ CREATE TABLE IF NOT EXISTS inquiries (
 -- 5. Create Settings Table
 CREATE TABLE IF NOT EXISTS settings (
   key TEXT PRIMARY KEY,
-  value TEXT
+  value JSONB NOT NULL DEFAULT 'false'::jsonb
 );
 
 -- 6. Create Subscribers Table
@@ -120,6 +120,18 @@ CREATE TABLE IF NOT EXISTS subscribers (
   email TEXT UNIQUE NOT NULL,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
+
+-- The application accesses settings only through protected server-side API routes.
+GRANT USAGE ON SCHEMA public TO service_role;
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE public.settings TO service_role;
+ALTER TABLE public.settings ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Service role full access to settings" ON public.settings;
+CREATE POLICY "Service role full access to settings"
+  ON public.settings
+  FOR ALL
+  TO service_role
+  USING (true)
+  WITH CHECK (true);
 ```
 4. Click **Run** to execute the query. You should see a green success alert.
 

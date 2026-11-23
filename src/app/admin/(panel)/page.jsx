@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { FiToggleLeft, FiToggleRight, FiRefreshCw } from 'react-icons/fi';
+import { FiToggleLeft, FiToggleRight, FiRefreshCw, FiGithub } from 'react-icons/fi';
 
 const SOURCE_COLORS = {
   'Instagram':   { bg: 'bg-pink-500/15',    text: 'text-pink-400',    dot: 'bg-pink-400'    },
@@ -188,6 +188,16 @@ export default function AdminDashboard() {
         </div>
         
         <div className="flex flex-wrap items-center gap-3">
+          <a
+            href="https://github.com/NeelCoder786"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Open GitHub profile"
+            className="flex items-center gap-2 bg-[#111] border border-white/5 text-white/70 text-xs rounded-xl px-3 py-1.5 hover:text-white hover:border-white/20 transition-colors"
+          >
+            <FiGithub size={15} />
+            GitHub
+          </a>
           <select
             value={filterMonth}
             onChange={(e) => setFilterMonth(e.target.value)}

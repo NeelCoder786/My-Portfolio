@@ -9,62 +9,59 @@ import { NextResponse } from "next/server";
  */
 export async function GET() {
   const data = {
-    name: "Sarang",
-    title: "Portfolio Designer, Website Developer, Video Editor & Photo Editor",
+    name: "Neel Sharma",
+    title: "AI & Machine Learning Engineer",
     website: "https://sarang-space.site",
-    email: "sarangwalle@gmail.com",
+    email: "neelsharma332713@gmail.com",
     location: "India",
     available_for_hire: true,
     summary:
-      "Sarang is a freelance portfolio designer, website developer, video editor, and photo editor from India. He creates cinematic, immersive websites and digital experiences.",
+      "Neel Sharma is a B.Tech student in Artificial Intelligence & Machine Learning from India, specializing in Python, deep learning, computer vision, NLP, predictive analytics, and generative AI.",
     
     services: [
       {
-        name: "Creative Web Development",
-        description: "Cinematic portfolio websites, interactive landing pages, immersive digital experiences with GSAP, Three.js, and Next.js",
-        technologies: ["React", "Next.js", "GSAP", "Three.js", "WebGL", "Tailwind CSS"],
+        name: "Machine Learning",
+        description: "Data analysis, predictive modeling, classification, regression, clustering, and model evaluation",
+        technologies: ["Python", "scikit-learn", "NumPy", "Pandas"],
       },
       {
-        name: "Video Editing & Motion Design",
-        description: "Cinematic trailers, social media reels, motion graphics, and animated content",
-        technologies: ["After Effects", "Premiere Pro", "DaVinci Resolve", "CapCut"],
+        name: "Deep Learning",
+        description: "Neural network development and training for complex pattern recognition and generative tasks",
+        technologies: ["TensorFlow", "PyTorch", "Keras"],
       },
       {
-        name: "UI/UX & Visual Design",
-        description: "Modern interface design, brand identity, posters, and creative visual concepts",
-        technologies: ["Figma", "Photoshop", "Illustrator", "Lightroom"],
+        name: "Computer Vision",
+        description: "Image recognition, object detection, image processing, and visual intelligence systems",
+        technologies: ["OpenCV", "Python", "PyTorch", "TensorFlow"],
       },
       {
-        name: "Shopify Development",
-        description: "Custom Shopify themes, e-commerce store setup and optimization",
-        technologies: ["Shopify Liquid", "JavaScript", "CSS"],
+        name: "Natural Language Processing",
+        description: "Text analysis, embeddings, transformers, chat systems, and retrieval-based AI",
+        technologies: ["Hugging Face", "PyTorch", "Transformers", "Python"],
       },
       {
-        name: "Flutter App Development",
-        description: "Cross-platform mobile applications for iOS and Android",
-        technologies: ["Flutter", "Dart"],
+        name: "MLOps & Deployment",
+        description: "Reproducible ML pipelines, model serving, containerization, monitoring, and deployment",
+        technologies: ["Docker", "Git", "PostgreSQL", "Python APIs"],
       },
     ],
 
     skills: {
-      frontend: ["React", "Next.js", "JavaScript", "TypeScript", "HTML5", "CSS3", "Tailwind CSS", "GSAP", "Three.js", "WebGL"],
-      backend: ["Node.js", "Express", "Python", "PHP", "Go", "Rust"],
-      mobile: ["Flutter", "Dart", "Swift", "Kotlin"],
-      database: ["PostgreSQL", "MySQL", "MongoDB", "Redis", "Supabase"],
-      creative: ["After Effects", "Premiere Pro", "DaVinci Resolve", "Figma", "Photoshop", "Illustrator", "Lightroom"],
-      devops: ["Git", "Docker", "Vercel", "Netlify"],
+      programming: ["Python", "SQL", "JavaScript", "TypeScript"],
+      machine_learning: ["scikit-learn", "Pandas", "NumPy", "Statistical Modeling", "Feature Engineering"],
+      deep_learning: ["TensorFlow", "PyTorch", "Keras"],
+      computer_vision: ["OpenCV", "Image Classification", "Object Detection"],
+      natural_language_processing: ["Hugging Face", "Transformers", "NLP", "Embeddings", "RAG"],
+      generative_ai: ["LLMs", "AI Agents", "Prompt Engineering", "Model Optimization"],
+      deployment: ["Docker", "Git", "MLOps", "Model Serving", "PostgreSQL", "APIs"],
     },
 
     experience: [
-      { role: "Freelance Developer", period: "2024–Present" },
-      { role: "Freelance Video Editor", period: "2022–Present" },
-      { role: "Freelance Photo Editor & Graphic Designer", period: "2020–Present" },
+      { role: "B.Tech in Artificial Intelligence & Machine Learning", period: "Present" },
     ],
 
     stats: {
-      websites_completed: "6+",
-      videos_edited: "75+",
-      photo_edits: "500+",
+      ai_domains: ["Machine Learning", "Deep Learning", "Computer Vision", "NLP", "Generative AI", "MLOps"],
     },
 
     pages: {

@@ -17,6 +17,15 @@ export default function ContactPopup({ isOpen, onClose }) {
   const geoCode = useGeoDialCode();
   useEffect(() => { if (geoCode) setSelectedCC(geoCode); }, [geoCode]);
 
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen, onClose]);
+
   // Reset on open
   useEffect(() => {
     if (isOpen) {
@@ -57,13 +66,31 @@ export default function ContactPopup({ isOpen, onClose }) {
   const inputCls = "w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-[#ff6b1a]/50 transition-colors duration-200 text-sm";
 
   return (
-    <div className="fixed inset-0 z-[200] flex items-center justify-center p-4">
-      <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={onClose} />
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-label="Contact Neel Sharma"
+      className="fixed inset-0 z-[200] flex items-center justify-center p-3 sm:p-4"
+    >
+      <button
+        type="button"
+        aria-label="Close contact popup"
+        className="absolute inset-0 h-full w-full bg-black/80 backdrop-blur-sm"
+        onClick={onClose}
+      />
 
-      <div className="relative bg-[#0a0a0a] border border-white/10 rounded-3xl p-7 md:p-10 max-w-md w-full shadow-2xl">
+      <div
+        className="relative z-10 bg-[#0a0a0a] border border-white/10 rounded-3xl p-5 sm:p-7 md:p-10 max-w-md w-full max-h-[calc(100svh-1.5rem)] overflow-y-auto shadow-2xl"
+        onClick={(event) => event.stopPropagation()}
+      >
 
         {/* Close */}
-        <button onClick={onClose} className="absolute top-5 right-5 text-white/30 hover:text-white transition-colors">
+        <button
+          type="button"
+          aria-label="Close contact popup panel"
+          onClick={onClose}
+          className="absolute top-5 right-5 z-20 text-white/30 hover:text-white transition-colors"
+        >
           <FiX size={20} />
         </button>
 

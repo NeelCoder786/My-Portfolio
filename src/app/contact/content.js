@@ -3,18 +3,12 @@
 // ─────────────────────────────────────────────
 
 import {
-  SiReact, SiNextdotjs, SiJavascript, SiTailwindcss,
-  SiFlutter, SiShopify, SiPython, SiCplusplus,
-  SiDavinciresolve, SiFigma,
-  SiHtml5, SiCss, SiTypescript, SiPhp, SiGo, SiRust, SiSwift, SiKotlin,
-  SiGit, SiDocker, SiNodedotjs, SiExpress, SiMongodb, SiPostgresql, SiMysql, SiRedis,
-  SiVercel, SiNetlify, SiPostman,
+  SiPython, SiTensorflow, SiPytorch, SiScikitlearn, SiOpencv, SiPandas, SiNumpy,
+  SiKeras, SiJupyter, SiHuggingface, SiGit, SiDocker, SiNodedotjs,
+  SiMongodb, SiPostgresql, SiMysql, SiRedis, SiPostman,
 } from "react-icons/si";
-import { FaJava } from "react-icons/fa";
 import {
-  TbCut, TbSql, TbPhoto,
-  TbBrandAdobeAfterEffect, TbBrandAdobePremier,
-  TbBrandAdobePhotoshop, TbBrandAdobeIllustrator,
+  TbSql,
 } from "react-icons/tb";
 
 export const SECTION = {
@@ -47,25 +41,17 @@ export const COUNTRIES = [
 ];
 
 export const TECH = [
-  { name: "React",          icon: SiReact },
-  { name: "Next.js",        icon: SiNextdotjs },
-  { name: "JavaScript",     icon: SiJavascript },
-  { name: "TypeScript",     icon: SiTypescript },
-  { name: "HTML5",          icon: SiHtml5 },
-  { name: "CSS3",           icon: SiCss },
-  { name: "Tailwind CSS",   icon: SiTailwindcss },
-  { name: "Node.js",        icon: SiNodedotjs },
-  { name: "Express",        icon: SiExpress },
-  { name: "Flutter",        icon: SiFlutter },
-  { name: "Shopify Liquid", icon: SiShopify },
   { name: "Python",         icon: SiPython },
-  { name: "Java",           icon: FaJava },
-  { name: "C++",            icon: SiCplusplus },
-  { name: "PHP",            icon: SiPhp },
-  { name: "Go",             icon: SiGo },
-  { name: "Rust",           icon: SiRust },
-  { name: "Swift",          icon: SiSwift },
-  { name: "Kotlin",         icon: SiKotlin },
+  { name: "TensorFlow",     icon: SiTensorflow },
+  { name: "PyTorch",        icon: SiPytorch },
+  { name: "scikit-learn",   icon: SiScikitlearn },
+  { name: "Keras",          icon: SiKeras },
+  { name: "NumPy",          icon: SiNumpy },
+  { name: "Pandas",         icon: SiPandas },
+  { name: "OpenCV",         icon: SiOpencv },
+  { name: "Hugging Face",   icon: SiHuggingface },
+  { name: "Jupyter",        icon: SiJupyter },
+  { name: "Node.js",        icon: SiNodedotjs },
   { name: "SQL",            icon: TbSql },
   { name: "MongoDB",        icon: SiMongodb },
   { name: "PostgreSQL",     icon: SiPostgresql },
@@ -73,18 +59,16 @@ export const TECH = [
   { name: "Redis",          icon: SiRedis },
   { name: "Git",            icon: SiGit },
   { name: "Docker",         icon: SiDocker },
-  { name: "Vercel",         icon: SiVercel },
-  { name: "Netlify",        icon: SiNetlify },
   { name: "Postman",        icon: SiPostman },
 ];
 
 export const CREATIVE = [
-  { name: "After Effects",   icon: TbBrandAdobeAfterEffect },
-  { name: "Premiere Pro",    icon: TbBrandAdobePremier },
-  { name: "DaVinci Resolve", icon: SiDavinciresolve },
-  { name: "CapCut",          icon: TbCut },
-  { name: "Photoshop",       icon: TbBrandAdobePhotoshop },
-  { name: "Lightroom",       icon: TbPhoto },
-  { name: "Figma",           icon: SiFigma },
-  { name: "Illustrator",     icon: TbBrandAdobeIllustrator },
+  { name: "Machine Learning", icon: SiScikitlearn },
+  { name: "Deep Learning", icon: SiPytorch },
+  { name: "Computer Vision", icon: SiOpencv },
+  { name: "Natural Language Processing", icon: SiHuggingface },
+  { name: "Generative AI", icon: SiTensorflow },
+  { name: "Data Analysis", icon: SiPandas },
+  { name: "Model Deployment", icon: SiDocker },
+  { name: "MLOps", icon: SiJupyter },
 ];

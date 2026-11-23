@@ -7,9 +7,11 @@ const nav = [
   { label: 'Dashboard', href: '/admin',           icon: GridIcon     },
   { label: 'Projects',  href: '/admin/projects',  icon: FolderIcon   },
   { label: 'Inquiries', href: '/admin/inquiries', icon: InboxIcon    },
-  { label: 'Reviews',   href: '/admin/reviews',   icon: StarIcon     },
   { label: 'Analytics', href: '/admin/analytics', icon: ChartIcon    },
-  { label: 'Links',     href: '/admin/links',     icon: LinkIcon     },
+  { label: 'Social Links', href: '/admin/links',  icon: LinkIcon     },
+  { label: 'Resume',    href: '/admin/resume',   icon: FileTextIcon },
+  { label: 'Images',    href: '/admin/images',   icon: ImageIcon },
+  { label: 'Reviews',   href: '/admin/reviews',   icon: StarIcon     },
 ];
 
 export default function AdminNav() {
@@ -84,7 +86,7 @@ export default function AdminNav() {
         <div className="px-6 py-5 border-b border-white/5 flex items-center justify-between gap-2 shrink-0">
           <div className="flex items-baseline gap-2 overflow-hidden">
             <Link href="/" className="text-[#ff6b1a] font-black text-xl tracking-tight">
-              S<span className="sidebar-label">arang</span>
+              N<span className="sidebar-label">eel</span>
             </Link>
             <p className="text-white/25 text-[10px] uppercase tracking-widest sidebar-subtext">Admin</p>
           </div>
@@ -277,6 +279,16 @@ function FileTextIcon({ size = 16 }) {
       <path d="M5 8.5h6" />
       <path d="M5 11.5h6" />
       <path d="M5 5.5h1" />
+    </svg>
+  );
+}
+
+function ImageIcon({ size = 16 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="1.5" y="2" width="13" height="12" rx="2" />
+      <circle cx="5.5" cy="6" r="1.5" />
+      <path d="M3 12l3.5-3.5 2.5 2 2-2 2 3.5" />
     </svg>
   );
 }

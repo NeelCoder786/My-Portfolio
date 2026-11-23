@@ -88,7 +88,7 @@ export default function AddProjectPage() {
 
       const payload = {
         title: form.title,
-        category: form.category || 'Website',
+        category: form.category || 'Machine Learning',
         tech: form.techStack,
         sort_order: parseInt(form.displayNumber) || 0,
         link: form.projectLink,
@@ -130,25 +130,30 @@ export default function AddProjectPage() {
 
   const catLower = (form.category || "").toLowerCase();
   let titleLabel = "Project Title *";
-  let titlePlaceholder = "e.g. Creative Developer";
+  let titlePlaceholder = "e.g. AI Customer Churn Predictor";
   let techLabel = "Tech stack";
-  let techPlaceholder = "e.g. React · Next.js · GSAP";
+  let techPlaceholder = "e.g. Python · TensorFlow · scikit-learn";
 
   if (catLower.includes("photo")) {
     titleLabel = "Photo Shoot Name *";
     titlePlaceholder = "e.g. Urban Architecture";
     techLabel = "Camera / Gear";
     techPlaceholder = "e.g. Sony A7IV · 35mm f/1.4";
-  } else if (catLower.includes("video")) {
-    titleLabel = "Video Project Name *";
-    titlePlaceholder = "e.g. Cinematic Edit";
-    techLabel = "Software / Gear";
-    techPlaceholder = "e.g. Premiere Pro · RED Komodo";
-  } else if (catLower.includes("design")) {
-    titleLabel = "Design Project Name *";
-    titlePlaceholder = "e.g. Brand Identity";
-    techLabel = "Design Tools";
-    techPlaceholder = "e.g. Photoshop · Illustrator";
+  } else if (catLower.includes("nlp") || catLower.includes("generative")) {
+    titleLabel = "AI Application Name *";
+    titlePlaceholder = "e.g. Intelligent Document Assistant";
+    techLabel = "AI Stack";
+    techPlaceholder = "e.g. Python · Hugging Face · RAG";
+  } else if (catLower.includes("vision")) {
+    titleLabel = "Computer Vision Project Name *";
+    titlePlaceholder = "e.g. Object Detection System";
+    techLabel = "AI Stack";
+    techPlaceholder = "e.g. PyTorch · OpenCV";
+  } else if (catLower.includes("mlops")) {
+    titleLabel = "MLOps Project Name *";
+    titlePlaceholder = "e.g. Automated Model Pipeline";
+    techLabel = "Deployment Stack";
+    techPlaceholder = "e.g. Docker · MLflow · PostgreSQL";
   }
 
   const inputClass = "w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-white/20 focus:outline-none focus:border-[#ff6b1a]/60 transition-all duration-300 text-sm";

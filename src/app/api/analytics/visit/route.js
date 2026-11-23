@@ -8,6 +8,9 @@ function isPrivateIP(ip) {
 
 export async function POST(request) {
   try {
+    if (!supabase) {
+      return NextResponse.json({ success: true, tracking: false });
+    }
     const { page, referrer, source } = await request.json();
     const userAgent = request.headers.get('user-agent') || '';
     const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||

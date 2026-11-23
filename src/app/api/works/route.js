@@ -17,26 +17,41 @@ async function isAdmin() {
 }
 
 export async function GET(request) {
+  if (!supabase) {
+    return NextResponse.json({ error: 'Database is not configured' }, { status: 503 });
+  }
   const { searchParams } = new URL(request.url);
   const admin = await isAdmin();
   const category = searchParams.get('category');
 
-  let query = supabase
+  const buildQuery = (includeSortOrder = true, includeVisibility = true) => {
+    let query = supabase
     .from('works')
-    .select('*')
-    .order('sort_order', { ascending: true })
-    .order('created_at', { ascending: false });
+      .select('*');
 
-  if (!(searchParams.get('all') === 'true' && admin)) {
+    if (includeSortOrder) {
+      query = query.order('sort_order', { ascending: true });
+    }
+    query = query.order('created_at', { ascending: false });
+    if (includeVisibility && !(searchParams.get('all') === 'true' && admin)) {
     query = query.eq('visible', true);
-  }
-
-  if (category && category !== 'All') {
+    }
+    if (category && category !== 'All') {
     query = query.eq('category', category);
-  }
+    }
+    return query;
+  };
 
-  const { data: works, error } = await query;
+  let query = buildQuery();
+
+  let { data: works, error } = await query;
+  if (error && /(sort_order|visible)/i.test(error.message)) {
+    ({ data: works, error } = await buildQuery(false, false));
+  }
   if (error) {
+    if (error.code === '42501' || /permission denied|privileges/i.test(error.message)) {
+      return NextResponse.json([], { status: 200 });
+    }
     console.error('[GET /api/works]', error.message);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
@@ -44,6 +59,9 @@ export async function GET(request) {
 }
 
 export async function POST(request) {
+  if (!supabase) {
+    return NextResponse.json({ error: 'Database is not configured' }, { status: 503 });
+  }
   if (!(await isAdmin())) {
     console.error('[POST /api/works] Unauthorized — no valid admin_token cookie');
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

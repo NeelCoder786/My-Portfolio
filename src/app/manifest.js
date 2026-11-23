@@ -1,8 +1,8 @@
 export default function manifest() {
   return {
-    name:             "Sarang — Creative Developer",
-    short_name:       "Sarang",
-    description:      "Cinematic digital experiences at the intersection of design and code.",
+    name:             "Neel Sharma - Portfolio",
+    short_name:       "Neel Sharma",
+    description:      "AI and Machine Learning systems, predictive analytics, and intelligent applications.",
     start_url:        "/",
     display:          "standalone",
     background_color: "#080808",

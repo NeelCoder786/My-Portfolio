@@ -19,10 +19,18 @@ export default function LinksPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const cached = (() => {
+      try { return JSON.parse(localStorage.getItem('social_links') || '{}'); }
+      catch { return {}; }
+    })();
+    if (Object.keys(cached).length) {
+      setLinks({ github: 'https://github.com/NeelCoder786', ...cached });
+    }
     fetch('/api/settings?key=social_links')
       .then(r => r.ok ? r.json() : null)
       .then(data => {
-        if (data?.value) setLinks(data.value);
+        const savedLinks = data?.value || cached;
+        setLinks({ github: 'https://github.com/NeelCoder786', ...savedLinks });
         setLoading(false);
       })
       .catch(() => setLoading(false));
@@ -30,11 +38,19 @@ export default function LinksPage() {
 
   const handleSave = async (key) => {
     setSaving(s => ({ ...s, [key]: true }));
-    await fetch('/api/settings', {
+    localStorage.setItem('social_links', JSON.stringify(links));
+    const response = await fetch('/api/settings', {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ key: 'social_links', value: links }),
-    });
+    }).catch(() => null);
+    if (typeof BroadcastChannel !== 'undefined') {
+      const channel = new BroadcastChannel('social-links');
+      channel.postMessage({ links });
+      channel.close();
+    }
+    window.dispatchEvent(new CustomEvent('social-links-update', { detail: { links } }));
+    setSaved(s => ({ ...s, [key]: response?.ok !== false }));
     setSaving(s => ({ ...s, [key]: false }));
     setSaved(s => ({ ...s, [key]: true }));
     setTimeout(() => setSaved(s => ({ ...s, [key]: false })), 2000);
@@ -42,11 +58,18 @@ export default function LinksPage() {
 
   const handleSaveAll = async () => {
     setSaving({ _all: true });
-    await fetch('/api/settings', {
+    localStorage.setItem('social_links', JSON.stringify(links));
+    const response = await fetch('/api/settings', {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ key: 'social_links', value: links }),
-    });
+    }).catch(() => null);
+    if (typeof BroadcastChannel !== 'undefined') {
+      const channel = new BroadcastChannel('social-links');
+      channel.postMessage({ links });
+      channel.close();
+    }
+    window.dispatchEvent(new CustomEvent('social-links-update', { detail: { links } }));
     setSaving({});
     setSaved({ _all: true });
     setTimeout(() => setSaved({}), 2000);

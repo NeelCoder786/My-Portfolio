@@ -10,10 +10,10 @@ gsap.registerPlugin(ScrollTrigger);
 const CATEGORIES = [
   {
     num: "01",
-    label: "Website",
-    title: "Web Design & Development",
+    label: "Machine Learning",
+    title: "Predictive AI Systems",
     description:
-      "High-performance websites, Shopify stores, and Next.js web apps — pixel-perfect and built for conversion.",
+      "Machine learning models, data pipelines, and intelligent AI applications built for real-world impact.",
     icon: (
       <svg viewBox="0 0 40 40" fill="none" className="w-8 h-8 opacity-20 group-hover:opacity-60 transition-opacity duration-500">
         <rect x="4" y="8" width="32" height="24" rx="3" stroke="currentColor" strokeWidth="1.5"/>
@@ -27,10 +27,10 @@ const CATEGORIES = [
   },
   {
     num: "02",
-    label: "Photo / Poster Design",
-    title: "Visual & Graphic Design",
+    label: "Computer Vision",
+    title: "Vision Intelligence",
     description:
-      "Brand identities, social media creatives, posters, and photo edits that stop the scroll and tell the story.",
+      "Image recognition, object detection, image processing, and visual intelligence applications.",
     icon: (
       <svg viewBox="0 0 40 40" fill="none" className="w-8 h-8 opacity-20 group-hover:opacity-60 transition-opacity duration-500">
         <rect x="5" y="5" width="30" height="30" rx="3" stroke="currentColor" strokeWidth="1.5"/>
@@ -42,10 +42,10 @@ const CATEGORIES = [
   },
   {
     num: "03",
-    label: "Video",
-    title: "Video & Motion Editing",
+    label: "Generative AI",
+    title: "LLM & NLP Systems",
     description:
-      "Cinematic reels, brand films, short-form content, and motion graphics that captivate and convert audiences.",
+      "LLM applications, embeddings, retrieval systems, AI agents, and transformer-based language solutions.",
     icon: (
       <svg viewBox="0 0 40 40" fill="none" className="w-8 h-8 opacity-20 group-hover:opacity-60 transition-opacity duration-500">
         <rect x="4" y="9" width="24" height="22" rx="3" stroke="currentColor" strokeWidth="1.5"/>
@@ -109,7 +109,7 @@ export default function Work() {
 
             {/* Category pills — decorative only */}
             <div className="flex flex-wrap gap-2 lg:pb-2">
-              {["Website", "Photo / Poster Design", "Video"].map((cat) => (
+              {["Machine Learning", "Computer Vision", "Generative AI"].map((cat) => (
                 <Link
                   key={cat}
                   href={`/projects${cat !== "All" ? `?cat=${cat.toLowerCase().split(" ")[0]}` : ""}`}

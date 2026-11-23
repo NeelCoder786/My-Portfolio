@@ -69,7 +69,7 @@ export default function OpenSourceView() {
         </h1>
 
         <p className="text-white/50 text-lg md:text-xl font-light leading-relaxed max-w-2xl mx-auto mb-10">
-          This portfolio is entirely open-source. My goal is to help other developers build premium, high-end cinematic experiences by studying the code, animations, and architecture used here.
+          This portfolio is entirely open-source. My goal is to help developers explore high-performance interfaces, machine learning integrations, and modern application architecture.
         </p>
 
         {/* ── GitHub Profile Card ── */}
@@ -162,7 +162,7 @@ export default function OpenSourceView() {
               <p className="text-white/40 text-sm">Built with Next.js App Router, React, and Tailwind CSS for optimal performance.</p>
             </div>
             <div className="p-6 bg-white/[0.02] border border-white/5 rounded-3xl hover:bg-white/[0.04] transition-colors">
-              <h3 className="text-white font-bold mb-2">Cinematic Motion</h3>
+              <h3 className="text-white font-bold mb-2">Immersive Motion</h3>
               <p className="text-white/40 text-sm">Smooth, high-end animations powered by GSAP and custom WebGL components.</p>
             </div>
             <div className="p-6 bg-white/[0.02] border border-white/5 rounded-3xl hover:bg-white/[0.04] transition-colors">

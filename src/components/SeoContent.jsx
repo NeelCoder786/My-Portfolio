@@ -14,58 +14,43 @@ export default function SeoContent() {
       itemType="https://schema.org/Person"
     >
       {/* Force rebuild */}
-      <h1 itemProp="name">Sarang — Next.js Developer, Shopify Expert, Graphic Designer & Video Editor</h1>
+      <h1 itemProp="name">Neel Sharma - Portfolio</h1>
       
       <p itemProp="description">
-        Creative developer and designer specializing in Next.js websites, Shopify stores, branding, cinematic video editing, motion graphics, and premium digital experiences. 
-        I build modern high-performance websites. I design cinematic digital experiences. Custom Shopify and Next.js development.
-        Premium branding and visual storytelling. Fast, SEO optimized responsive websites. Creative developer for fashion and luxury brands. 
-        Professional video editing and motion graphics. Modern portfolio and business website solutions.
+        AI and Machine Learning engineer specializing in predictive modeling, deep learning, computer vision, natural language processing, generative AI, and MLOps.
+        I build data-driven machine learning systems from collection and feature engineering through training, evaluation, deployment, and monitoring.
       </p>
 
-      <p itemProp="jobTitle">Next.js Developer & Shopify Expert</p>
+      <p itemProp="jobTitle">AI & Machine Learning Engineer</p>
 
       <section aria-label="Services">
-        <h2>Services — Hire Sarang</h2>
+        <h2>Services — Hire Neel Sharma</h2>
         
         <article>
-          <h3>Portfolio Design & Website Development</h3>
+          <h3>Machine Learning & Predictive Analytics</h3>
           <p>
-            Looking for a Website Developer in Kerala or a Web Designer in Calicut? Sarang creates cinematic, interactive portfolio 
-            websites, landing pages, Shopify e-commerce stores, and full-stack web applications. Technologies include 
-            React, Next.js, GSAP, Three.js, WebGL, Tailwind CSS, Node.js, Express, and Supabase.
+            Neel Sharma develops supervised and unsupervised learning solutions for classification, regression, clustering, forecasting, and data-driven decisions using Python and scikit-learn.
           </p>
         </article>
 
         <article>
-          <h3>Video Editing & Motion Design</h3>
+          <h3>Deep Learning & Computer Vision</h3>
           <p>
-            Need a freelance Video Editor in Kerala? Sarang creates cinematic trailers, social media reels, promotional videos,
-            YouTube content, motion graphics, and animated visual effects using After Effects, Premiere Pro, 
-            DaVinci Resolve, and CapCut. Over 75 videos edited.
+            Neel Sharma builds neural networks, image classification systems, object detection pipelines, and computer vision applications using TensorFlow, PyTorch, Keras, and OpenCV.
           </p>
         </article>
 
         <article>
-          <h3>Photo Editing & Graphic Design</h3>
+          <h3>Natural Language Processing & Generative AI</h3>
           <p>
-            Hire a Graphic Designer in India. Sarang provides professional photo retouching, brand identity 
-            design, poster design, social media graphics, and creative visual concepts using Photoshop, Lightroom, 
-            Figma, and Illustrator. Over 500 photo edits completed.
+            Neel Sharma develops NLP solutions, embeddings, transformers, RAG systems, AI agents, and LLM applications using Hugging Face, PyTorch, Python, and modern prompt engineering.
           </p>
         </article>
 
         <article>
-          <h3>Shopify Development</h3>
+          <h3>MLOps & Model Deployment</h3>
           <p>
-            Custom Shopify themes with Liquid, e-commerce store setup, and storefront optimization for online businesses. Shopify Developer Kerala.
-          </p>
-        </article>
-
-        <article>
-          <h3>Flutter App Development</h3>
-          <p>
-            Cross-platform mobile app development for iOS and Android using Flutter and Dart.
+            Neel Sharma builds reproducible ML pipelines, APIs, Dockerized model services, monitoring workflows, and deployment systems for reliable production AI.
           </p>
         </article>
       </section>
@@ -73,64 +58,63 @@ export default function SeoContent() {
       <section aria-label="Portfolio Statistics">
         <h2>Portfolio Statistics</h2>
         <ul>
-          <li>6+ websites designed and developed</li>
-          <li>75+ videos professionally edited</li>
-          <li>500+ photo edits and visual concepts created</li>
-          <li>Freelancing since 2020</li>
+          <li>Machine learning and predictive analytics</li>
+          <li>Deep learning and neural networks</li>
+          <li>Computer vision and NLP</li>
+          <li>Generative AI and MLOps</li>
         </ul>
       </section>
 
       <section aria-label="Technical Skills">
         <h2>Technical Skills</h2>
         <p itemProp="knowsAbout">
-          React, Next.js, JavaScript, TypeScript, HTML5, CSS3, Tailwind CSS, GSAP, Framer Motion, Three.js, WebGL,
-          Node.js, Express, Prisma, Flutter, Dart, Shopify Liquid, Python, Java, C++, PHP, Go, Rust, Swift, Kotlin,
-          MongoDB, PostgreSQL, MySQL, Redis, Supabase, Postman, Git, Docker, Vercel, Netlify,
-          After Effects, Premiere Pro, DaVinci Resolve, CapCut, Photoshop, Lightroom, Figma, Illustrator
+          Python, NumPy, Pandas, SQL, scikit-learn, TensorFlow, PyTorch, Keras, OpenCV,
+          Hugging Face, Transformers, NLP, embeddings, RAG, LLMs, prompt engineering,
+          model evaluation, feature engineering, Docker, Git, MLOps, PostgreSQL, and API deployment
         </p>
       </section>
 
-      <section aria-label="About Sarang — Creative Website Developer & Designer">
-        <h2>Sarang – Creative Website Developer & Designer</h2>
+      <section aria-label="About Neel Sharma - Portfolio">
+        <h2>Neel Sharma – AI &amp; Machine Learning Engineer</h2>
         <p>
-          Sarang is a creative website developer and digital designer from Kerala, India, focused on building modern digital experiences, cinematic visuals, branding systems, Shopify stores, and high-quality poster designs. With a strong passion for creativity and technology, Sarang combines visual storytelling with modern web development to create unique online experiences that feel premium, immersive, and visually powerful.
+          Neel Sharma is a B.Tech student in Artificial Intelligence & Machine Learning from Rajasthan, India, focused on building data-driven, ethical, and practical intelligent systems. He combines academic training, statistical analysis, machine learning, deep learning, and software engineering to create solutions for prediction, automation, computer vision, and natural language processing.
         </p>
         
         <h3>Skills and Expertise:</h3>
         <ul>
-          <li>Website Development</li>
-          <li>Frontend Development</li>
-          <li>Shopify Development</li>
-          <li>Ecommerce Design</li>
-          <li>UI/UX Design</li>
-          <li>Graphic Design</li>
-          <li>Poster Design</li>
-          <li>Branding Design</li>
-          <li>Motion Graphics</li>
-          <li>Video Editing</li>
-          <li>Cinematic Visual Design</li>
-          <li>Digital Storytelling</li>
-          <li>Responsive Web Design</li>
-          <li>Modern Landing Pages</li>
-          <li>Creative Direction</li>
-          <li>Social Media Design</li>
-          <li>Luxury Brand Visuals</li>
-          <li>Portfolio Website Design</li>
-          <li>Modern Typography</li>
-          <li>Creative Development</li>
+          <li>Machine Learning</li>
+          <li>Deep Learning</li>
+          <li>Computer Vision</li>
+          <li>Natural Language Processing</li>
+          <li>Generative AI</li>
+          <li>MLOps and Deployment</li>
+          <li>Data Analysis</li>
+          <li>Feature Engineering</li>
+          <li>Deep Learning</li>
+          <li>Computer Vision</li>
+          <li>Natural Language Processing</li>
+          <li>Generative AI</li>
+          <li>Artificial Intelligence</li>
+          <li>Machine Learning Systems</li>
+          <li>Deep Learning</li>
+          <li>Computer Vision</li>
+          <li>Natural Language Processing</li>
+          <li>Generative AI</li>
+          <li>Data Science</li>
+          <li>MLOps</li>
         </ul>
         
         <p>
-          Sarang continues to develop modern digital experiences focused on creativity, performance, storytelling, and visual identity. His goal is to create meaningful digital work that combines design, technology, and emotional impact into a single creative experience.
+          Neel Sharma continues to develop modern digital experiences focused on creativity, performance, storytelling, and visual identity. His goal is to create meaningful digital work that combines design, technology, and emotional impact into a single creative experience.
         </p>
       </section>
 
       <section aria-label="Contact">
-        <h2>Hire Sarang — Contact Information</h2>
+        <h2>Hire Neel Sharma — Contact Information</h2>
         <p>
           <span itemProp="url">https://sarang-space.site</span> |
-          <span itemProp="email">sarangwalle[at]gmail.com</span> |
-          Available for freelance projects worldwide
+          <span itemProp="email">neelsharma332713@gmail.com</span> |
+          Available for AI project collaboration and opportunities
         </p>
       </section>
     </div>

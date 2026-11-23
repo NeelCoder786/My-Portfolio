@@ -5,13 +5,16 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { FiGithub } from "react-icons/fi";
 import ContactPopup from "./ContactPopup";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const LINKS = [
-  { label: "Projects", href: "/projects" },
   { label: "About", href: "/about" },
+  { label: "Projects", href: "/projects" },
+  { label: "GitHub", href: "https://github.com/NeelCoder786", external: true },
+  { label: "Social Links", href: "/#social-links" },
   { label: "Contact", href: "/contact" },
 ];
 
@@ -29,6 +32,15 @@ export default function Navbar() {
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
+  }, [open]);
+
+  useEffect(() => {
+    if (!open) return;
+    const closeOnEscape = (event) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
   }, [open]);
 
   useEffect(() => {
@@ -92,7 +104,7 @@ export default function Navbar() {
           <Link href="/" className="flex items-center hover:opacity-80 transition-opacity duration-300">
             <Image
               src="/photo/logo navbar inverse.png"
-              alt="Sarang — Portfolio Designer & Creative Developer"
+              alt="Neel Sharma - Portfolio"
               width={120} height={40}
               className="h-9 w-auto"
               priority
@@ -101,21 +113,42 @@ export default function Navbar() {
         </div>
 
         {/* Desktop links */}
-        <ul className="relative hidden md:flex items-center gap-2 text-[11px] uppercase tracking-[0.28em] font-medium">
-          {LINKS.map(({ label, href }) => {
+        <ul className="relative hidden lg:flex items-center gap-2 text-[11px] uppercase tracking-[0.28em] font-medium">
+          {LINKS.map(({ label, href, external }) => {
             const active = pathname === href;
             return (
               <li key={href}>
-                <Link href={href} className={`px-4 py-2 transition-all duration-300 ${active ? "text-[#ff6b1a]" : "text-white/50 hover:text-white/80"}`}>
-                  {label}
-                </Link>
+                {external ? (
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-4 py-2 transition-all duration-300 text-white/50 hover:text-white/80 flex items-center gap-2"
+                  >
+                    <FiGithub size={14} />
+                    {label}
+                  </a>
+                ) : (
+                  <Link
+                    href={href}
+                    prefetch
+                    onClick={() => setOpen(false)}
+                    className={`px-4 py-2 transition-all duration-300 ${active ? "text-[#ff6b1a]" : "text-white/50 hover:text-white/80"}`}
+                  >
+                    {label}
+                  </Link>
+                )}
               </li>
             );
           })}
           <li className="ml-2">
             <button 
               suppressHydrationWarning
+              type="button"
               onClick={() => setIsContactOpen(true)}
+              onPointerUp={() => {
+                setIsContactOpen(true);
+              }}
               className="px-5 py-2 bg-[#ff6b1a] text-black font-bold rounded-full hover:bg-white hover:text-black transition-colors duration-300 flex items-center gap-2"
             >
               Start Now
@@ -126,8 +159,9 @@ export default function Navbar() {
         {/* Mobile hamburger */}
         <button
           suppressHydrationWarning
+          type="button"
           onClick={() => setOpen(v => !v)}
-          className="relative md:hidden flex flex-col justify-center items-center w-10 h-10 gap-[6px] z-[60]"
+          className="relative lg:hidden flex flex-col justify-center items-center w-10 h-10 gap-[6px] z-[60]"
           aria-label={open ? "Close menu" : "Open menu"}
         >
           <span className={`block w-6 h-[1.5px] bg-white transition-all duration-300 origin-center ${open ? "rotate-45 translate-y-[7.5px]" : ""}`} />
@@ -140,20 +174,34 @@ export default function Navbar() {
       {open && (
         <div
           ref={menuRef}
-          className="fixed inset-0 z-[55] bg-black/95 backdrop-blur-xl flex flex-col justify-center items-start px-10 md:hidden"
+          className="fixed inset-0 z-[55] bg-black/95 backdrop-blur-xl flex flex-col justify-center items-start px-6 sm:px-10 lg:hidden"
         >
           <ul className="flex flex-col gap-8 w-full">
-            {LINKS.map(({ label, href }) => {
+            {LINKS.map(({ label, href, external }) => {
               const active = pathname === href;
               return (
                 <li key={href} className="mobile-nav-link">
-                  <Link
-                    href={href}
-                    onClick={() => setOpen(false)}
-                    className={`block text-4xl font-black tracking-tighter transition-colors duration-300 ${active ? "text-[#ff6b1a]" : "text-white/70 hover:text-white"}`}
-                  >
-                    {label}
-                  </Link>
+                  {external ? (
+                    <a
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => setOpen(false)}
+                      className="flex items-center gap-4 text-4xl font-black tracking-tighter text-white/70 hover:text-white transition-colors duration-300"
+                    >
+                      <FiGithub size={30} />
+                      {label}
+                    </a>
+                  ) : (
+                    <Link
+                      href={href}
+                      prefetch
+                      onClick={() => setOpen(false)}
+                      className={`block text-4xl font-black tracking-tighter transition-colors duration-300 ${active ? "text-[#ff6b1a]" : "text-white/70 hover:text-white"}`}
+                    >
+                      {label}
+                    </Link>
+                  )}
                 </li>
               );
             })}
@@ -164,6 +212,10 @@ export default function Navbar() {
                    setOpen(false);
                    setIsContactOpen(true);
                  }}
+                 onPointerUp={() => {
+                   setOpen(false);
+                   setIsContactOpen(true);
+                 }}
                  className="w-full py-4 bg-[#ff6b1a] text-black text-xl font-bold tracking-tight rounded-2xl hover:bg-white hover:text-black transition-colors duration-300"
                >
                  Start Now
@@ -171,7 +223,7 @@ export default function Navbar() {
             </li>
           </ul>
           <div className="mobile-nav-link mt-16 text-[10px] text-white/20 tracking-[0.4em] uppercase">
-            Sarang · Portfolio
+            Neel Sharma · Portfolio
           </div>
         </div>
       )}

@@ -3,6 +3,9 @@ import { supabase } from '@/lib/supabase';
 
 export async function POST(request) {
   try {
+    if (!supabase) {
+      return NextResponse.json({ success: true, tracking: false });
+    }
     const { label, url, page } = await request.json();
     if (!label) return NextResponse.json({ error: 'label required' }, { status: 400 });
 

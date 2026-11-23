@@ -12,7 +12,7 @@ const playfair = Playfair_Display({
   display: "swap"
 });
 
-const BASE = "https://neelsharmaportfolio";
+const BASE = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
 export const viewport = {
   themeColor: "#ff6b1a",
@@ -22,42 +22,41 @@ export const metadata = {
   metadataBase: new URL(BASE),
 
   title: {
-    default: "Sarang — Next.js Developer, Shopify Expert, Graphic Designer & Video Editor",
-    template: "%s — Sarang | Next.js Developer & Shopify Expert",
+    default: "Neel Sharma - Portfolio",
+    template: "%s - Neel Sharma - Portfolio",
   },
   description:
-    "Creative developer and designer specializing in Next.js websites, Shopify stores, branding, cinematic video editing, motion graphics, and premium digital experiences.",
+    "AI and Machine Learning engineer specializing in machine learning, deep learning, computer vision, NLP, predictive analytics, and generative AI.",
   keywords: [
-    "Next.js Developer", "Creative Web Developer", "Shopify Expert", 
-    "Video Editor", "Graphic Designer", "UI/UX Designer", 
-    "Cinematic Portfolio", "GSAP Animation", "React Developer",
-    "Modern Web Design", "Portfolio Template", "Freelance Developer India"
+    "AI Engineer", "Machine Learning Engineer", "Data Scientist",
+    "Deep Learning", "Computer Vision", "Natural Language Processing",
+    "Generative AI", "Python Developer", "MLOps"
   ],
-  authors: [{ name: "Sarang", url: BASE }],
-  creator: "Sarang",
-  publisher: "Sarang",
+  authors: [{ name: "Neel Sharma", url: BASE }],
+  creator: "Neel Sharma",
+  publisher: "Neel Sharma",
 
   openGraph: {
     type: "website",
     locale: "en_US",
     url: BASE,
-    siteName: "Sarang — Next.js Developer, Shopify Expert, Graphic Designer & Video Editor",
-    title: "Sarang — Next.js Developer, Shopify Expert, Graphic Designer & Video Editor",
-    description: "Creative developer and designer specializing in Next.js websites, Shopify stores, branding, cinematic video editing, motion graphics, and premium digital experiences.",
+    siteName: "Neel Sharma - Portfolio",
+    title: "Neel Sharma - Portfolio",
+    description: "AI and Machine Learning engineer specializing in machine learning, deep learning, computer vision, NLP, generative AI, and MLOps.",
     images: [{
       url: "/og-image.png",
       width: 1200,
       height: 630,
-      alt: "Sarang — Next.js Developer, Shopify Expert, Graphic Designer & Video Editor",
+      alt: "Neel Sharma - Portfolio",
     }],
   },
 
   twitter: {
     card: "summary_large_image",
-    title: "Sarang — Next.js Developer, Shopify Expert, Graphic Designer & Video Editor",
-    description: "Creative developer and designer specializing in Next.js websites, Shopify stores, branding, cinematic video editing, motion graphics, and premium digital experiences.",
+    title: "Neel Sharma - Portfolio",
+    description: "AI and Machine Learning engineer specializing in machine learning, deep learning, computer vision, NLP, generative AI, and MLOps.",
     images: ["/og-image.png"],
-    creator: "@sarang",
+    creator: "@neelsharma",
   },
 
   robots: {
@@ -80,7 +79,7 @@ export const metadata = {
     shortcut: "/photo/favicon.png",
   },
 
-  manifest: "/manifest.json",
+  manifest: "/manifest.webmanifest",
 
   alternates: { canonical: BASE },
 
@@ -93,33 +92,33 @@ const jsonLd = {
     {
       "@type": "Person",
       "@id": `${BASE}/#person`,
-      "name": "Sarang",
+      "name": "Neel Sharma",
       "url": BASE,
-      "jobTitle": "Creative Developer",
-      "description": "Creative developer building cinematic digital experiences at the intersection of design and code. Specialising in Next.js, GSAP, Three.js, and WebGL.",
+      "jobTitle": "AI & Machine Learning Engineer",
+      "description": "AI and Machine Learning engineer building predictive, deep learning, computer vision, NLP, generative AI, and MLOps solutions.",
       "knowsAbout": [
-        "Next.js", "React", "GSAP", "Three.js", "WebGL", "Tailwind CSS",
-        "JavaScript", "TypeScript", "Node.js", "Flutter", "Shopify",
-        "Video Editing", "Motion Graphics", "UI/UX Design", "Figma",
-        "After Effects", "Premiere Pro", "DaVinci Resolve",
-        "Photoshop", "Illustrator", "Python", "MongoDB", "PostgreSQL"
+        "Python", "NumPy", "Pandas", "SQL", "scikit-learn",
+        "TensorFlow", "PyTorch", "Keras", "OpenCV",
+        "Natural Language Processing", "Transformers", "Hugging Face",
+        "Generative AI", "LLMs", "RAG", "Machine Learning", "Deep Learning",
+        "Feature Engineering", "Model Evaluation", "Docker", "MLOps", "PostgreSQL"
       ],
       "hasOccupation": [
         {
           "@type": "Occupation",
-          "name": "Freelance Web Developer",
+          "name": "Machine Learning Engineer",
           "occupationLocation": { "@type": "Country", "name": "India" },
-          "skills": "React, Next.js, GSAP, Three.js, WebGL, Shopify, Flutter"
+          "skills": "Python, scikit-learn, Pandas, NumPy, SQL, feature engineering"
         },
         {
           "@type": "Occupation",
-          "name": "Freelance Video Editor",
-          "skills": "After Effects, Premiere Pro, DaVinci Resolve, Motion Graphics"
+          "name": "Deep Learning Engineer",
+          "skills": "TensorFlow, PyTorch, Keras, computer vision, NLP"
         },
         {
           "@type": "Occupation",
-          "name": "Freelance Graphic Designer",
-          "skills": "Figma, Photoshop, Illustrator, Lightroom"
+          "name": "MLOps Engineer",
+          "skills": "Docker, model deployment, API development, monitoring, PostgreSQL"
         }
       ],
       "makesOffer": [
@@ -127,40 +126,40 @@ const jsonLd = {
           "@type": "Offer",
           "itemOffered": {
             "@type": "Service",
-            "name": "Creative Web Development",
-            "description": "Cinematic portfolio websites, interactive landing pages, and immersive digital experiences with GSAP, Three.js, and Next.js"
+            "name": "Machine Learning Development",
+            "description": "Predictive models, classification, forecasting, clustering, and data-driven AI applications"
           }
         },
         {
           "@type": "Offer",
           "itemOffered": {
             "@type": "Service",
-            "name": "Video Editing & Motion Design",
-            "description": "Cinematic trailers, social media reels, motion graphics using After Effects, Premiere Pro, DaVinci Resolve"
+            "name": "Deep Learning & Computer Vision",
+            "description": "Neural networks, image classification, object detection, and visual intelligence systems"
           }
         },
         {
           "@type": "Offer",
           "itemOffered": {
             "@type": "Service",
-            "name": "UI/UX & Visual Design",
-            "description": "Modern interface design, brand identity, posters, and visual concepts in Figma, Photoshop, Illustrator"
+            "name": "Natural Language Processing",
+            "description": "Text analysis, embeddings, transformers, RAG systems, chatbots, and AI agents"
           }
         },
         {
           "@type": "Offer",
           "itemOffered": {
             "@type": "Service",
-            "name": "Shopify Development",
-            "description": "Custom Shopify themes with Liquid, e-commerce store setup and optimization"
+            "name": "Generative AI Development",
+            "description": "LLM applications, prompt engineering, model integration, and generative AI workflows"
           }
         },
         {
           "@type": "Offer",
           "itemOffered": {
             "@type": "Service",
-            "name": "Flutter App Development",
-            "description": "Cross-platform mobile applications for iOS and Android"
+            "name": "MLOps & Model Deployment",
+            "description": "Dockerized model services, APIs, monitoring, and scalable ML deployment"
           }
         }
       ],
@@ -169,7 +168,7 @@ const jsonLd = {
     {
       "@type": "ProfessionalService",
       "@id": `${BASE}/#localbusiness`,
-      "name": "Sarang — Creative Developer",
+      "name": "Neel Sharma - Portfolio",
       "image": `${BASE}/og-image.png`,
       "url": BASE,
       "telephone": "+91-0000000000",
@@ -179,15 +178,15 @@ const jsonLd = {
         "addressCountry": "IN"
       },
       "priceRange": "$$",
-      "description": "Freelance creative developer & portfolio designer.",
+      "description": "AI and Machine Learning engineer specializing in predictive analytics, deep learning, NLP, and computer vision.",
       "founder": { "@id": `${BASE}/#person` }
     },
     {
       "@type": "WebSite",
       "@id": `${BASE}/#website`,
       "url": BASE,
-      "name": "Sarang — Creative Developer",
-      "description": "Portfolio of Sarang, a creative developer building cinematic digital experiences with React, Next.js, GSAP, Three.js, and WebGL.",
+      "name": "Neel Sharma - Portfolio",
+      "description": "Portfolio of Neel Sharma, an AI and Machine Learning engineer building predictive, deep learning, NLP, and computer vision solutions.",
       "publisher": { "@id": `${BASE}/#person` },
       "inLanguage": "en-US",
     },
@@ -195,7 +194,7 @@ const jsonLd = {
       "@type": "ProfilePage",
       "@id": `${BASE}/#profilepage`,
       "url": BASE,
-      "name": "Sarang — Creative Developer Portfolio",
+      "name": "Neel Sharma - Portfolio",
       "isPartOf": { "@id": `${BASE}/#website` },
       "about": { "@id": `${BASE}/#person` },
       "mainEntity": { "@id": `${BASE}/#person` },
@@ -217,20 +216,20 @@ const jsonLd = {
         {
           "@type": "ListItem",
           "position": 1,
-          "name": "Creative Web Development",
-          "description": "Crafting immersive websites with smooth interactions, cinematic layouts, and visually rich animations using React, Next.js, GSAP",
+          "name": "Machine Learning Development",
+          "description": "Building predictive models and data-driven systems using Python, scikit-learn, feature engineering, and statistical analysis",
         },
         {
           "@type": "ListItem",
           "position": 2,
-          "name": "Motion & Video Editing",
-          "description": "Creating trailers, reels, motion graphics, and cinematic edits using After Effects, Premiere Pro, and DaVinci Resolve",
+          "name": "Deep Learning & Computer Vision",
+          "description": "Developing neural networks, image classification, object detection, and visual intelligence systems using TensorFlow, PyTorch, and OpenCV",
         },
         {
           "@type": "ListItem",
           "position": 3,
-          "name": "UI/Visual Design",
-          "description": "Designing modern interfaces, branding, posters with focus on minimal aesthetics and strong visual identity",
+          "name": "MLOps & Model Deployment",
+          "description": "Deploying reproducible, monitored, and scalable machine learning systems using Docker, APIs, databases, and modern MLOps workflows",
         },
       ],
     },
@@ -239,66 +238,66 @@ const jsonLd = {
       "mainEntity": [
         {
           "@type": "Question",
-          "name": "What services does Sarang offer?",
+          "name": "What services does Neel Sharma offer?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Sarang offers creative web development (React, Next.js, GSAP, Three.js), video editing and motion design (After Effects, Premiere Pro, DaVinci Resolve), UI/UX design (Figma, Photoshop), Shopify development, and Flutter mobile app development."
+            "text": "Neel Sharma offers machine learning, deep learning, computer vision, natural language processing, generative AI, and MLOps development."
           }
         },
         {
           "@type": "Question",
-          "name": "How can I hire Sarang for a project?",
+          "name": "How can I hire Neel Sharma for a project?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "You can reach out through the contact form at sarang-space.site/contact or email sarangwalle@gmail.com. Sarang is available for freelance projects worldwide."
+            "text": "You can reach out through the contact form at sarang-space.site/contact or email neelsharma332713@gmail.com. Neel Sharma is available for AI project collaboration and opportunities."
           }
         },
         {
           "@type": "Question",
-          "name": "What technologies does Sarang work with?",
+          "name": "What technologies does Neel Sharma work with?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Sarang works with React, Next.js, GSAP, Three.js, WebGL, Tailwind CSS, Node.js, Flutter, Shopify Liquid, Python, TypeScript, MongoDB, PostgreSQL, and creative tools like After Effects, Premiere Pro, Figma, and Photoshop."
+            "text": "Neel Sharma works with Python, NumPy, Pandas, SQL, scikit-learn, TensorFlow, PyTorch, Keras, OpenCV, Hugging Face, Transformers, Docker, Git, MLOps, and PostgreSQL."
           }
         },
         {
           "@type": "Question",
-          "name": "Where is Sarang based and does he work remotely?",
+          "name": "Where is Neel Sharma based and does he work remotely?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Sarang is based in India and is fully available for remote freelance projects worldwide. He has worked with clients across different countries and time zones."
+            "text": "Neel Sharma is a B.Tech Artificial Intelligence & Machine Learning student based in India, available for remote AI project collaboration."
           }
         },
         {
           "@type": "Question",
-          "name": "How long does a typical project take with Sarang?",
+          "name": "How long does a typical project take with Neel Sharma?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Project timelines depend on scope. A simple portfolio website typically takes 1–2 weeks. A full-stack web application or complex interactive site can take 3–6 weeks. Video editing projects are usually delivered within 3–7 days. Contact Sarang at sarang-space.site/contact for a specific estimate."
+            "text": "Project timelines depend on scope and data requirements. A machine learning prototype may take 2–4 weeks, while a deployed AI system or MLOps pipeline may take 6–12 weeks. Contact Neel Sharma at sarang-space.site/contact for a specific estimate."
           }
         },
         {
           "@type": "Question",
-          "name": "What makes Sarang different from other freelance developers?",
+          "name": "What makes Neel Sharma's AI profile distinctive?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Sarang combines three disciplines — web development, video editing, and visual design — in one person. He specializes in cinematic, immersive experiences with GSAP animations, Three.js 3D, and WebGL. His work focuses on feeling as much as function, creating digital experiences that are premium, smooth, and memorable."
+            "text": "Neel Sharma focuses on practical, measurable AI engineering across machine learning, deep learning, computer vision, NLP, generative AI, and MLOps."
           }
         },
         {
           "@type": "Question",
-          "name": "What is Sarang's background and education?",
+          "name": "What is Neel Sharma's background and education?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Sarang is a 19-year-old from India currently studying Cybersecurity. He has been freelancing since 2020 — starting with photo editing and graphic design, expanding into video editing in 2022, and full-stack web development in 2024. He has 6+ years of creative freelance experience."
+            "text": "Neel Sharma is a B.Tech student in Artificial Intelligence & Machine Learning from India, specializing in Python, TensorFlow, PyTorch, scikit-learn, OpenCV, NLP, generative AI, and MLOps."
           }
         }
       ]
     },
     {
       "@type": "HowTo",
-      "name": "How to Hire Sarang as a Freelance Developer or Editor",
-      "description": "Steps to hire Sarang for freelance web development, video editing, or design work",
+      "name": "How to Collaborate with Neel Sharma on an AI Project",
+      "description": "Steps to collaborate with Neel Sharma on machine learning, deep learning, NLP, computer vision, generative AI, or MLOps work",
       "totalTime": "PT5M",
       "step": [
         {
@@ -312,14 +311,14 @@ const jsonLd = {
           "@type": "HowToStep",
           "position": 2,
           "name": "Describe your project",
-          "text": "Fill out the contact form with your project type (website, video, design), rough scope, and timeline.",
+          "text": "Fill out the contact form with your AI project type, dataset or data source, rough scope, and timeline.",
           "url": `${BASE}/contact`
         },
         {
           "@type": "HowToStep",
           "position": 3,
           "name": "Receive a response",
-          "text": "Sarang responds within 24 hours to discuss requirements, timeline, and pricing."
+          "text": "Neel Sharma responds within 24 hours to discuss requirements, timeline, and pricing."
         },
         {
           "@type": "HowToStep",
@@ -333,10 +332,10 @@ const jsonLd = {
       "@type": "WebPage",
       "@id": `${BASE}/#webpage`,
       "url": BASE,
-      "name": "Sarang — Portfolio Designer, Website Developer, Video Editor & Photo Editor",
+      "name": "Neel Sharma - Portfolio",
       "isPartOf": { "@id": `${BASE}/#website` },
       "about": { "@id": `${BASE}/#person` },
-      "description": "Portfolio of Sarang — a freelance portfolio designer, website developer, video editor, and photo editor from India building cinematic digital experiences.",
+      "description": "Portfolio of Neel Sharma — an AI and Machine Learning engineer building predictive models, deep learning systems, NLP applications, computer vision solutions, and MLOps pipelines.",
       "inLanguage": "en-US",
       "speakable": {
         "@type": "SpeakableSpecification",

@@ -44,11 +44,11 @@ export default function Hero() {
   return (
     <section
       ref={ref}
-      className="relative min-h-[135vh] flex flex-col justify-center px-10 md:px-24 overflow-hidden"
+      className="relative min-h-[125svh] sm:min-h-[135vh] flex flex-col justify-center px-5 sm:px-10 md:px-16 lg:px-24 overflow-hidden"
     >
       <div className="relative z-10 max-w-5xl">
         <p className="hero-label text-[10px] md:text-xs text-[#ff6b1a] tracking-[0.2em] uppercase font-bold mb-6">
-          Digital Experience Designer
+          AI & Machine Learning Engineer
         </p>
 
         <h1
@@ -56,17 +56,26 @@ export default function Hero() {
         >
           <span className="hero-line block ghost z-0">Hey, I'm</span>
           <span className="block text-white -mt-2 md:-mt-6 z-10 hero-perspective">
-            {"Sarang.".split("").map((char, index) => (
-              <span key={index} className="hero-letter inline-block">
-                {char === " " ? "\u00A0" : char}
-              </span>
-            ))}
+            <span className="block">
+              {"Neel".split("").map((char, index) => (
+                <span key={`first-${index}`} className="hero-letter inline-block">
+                  {char}
+                </span>
+              ))}
+            </span>
+            <span className="block -mt-1 md:-mt-3">
+              {"Sharma.".split("").map((char, index) => (
+                <span key={`last-${index}`} className="hero-letter inline-block">
+                  {char}
+                </span>
+              ))}
+            </span>
           </span>
         </h1>
 
         <div className="max-w-lg hero-sub flex flex-col gap-6">
           <BlurText
-            text="I create *immersive* digital experiences that blend design, motion, and technology into something visually *memorable* and smooth to use. My work focuses on building websites and visuals with strong *atmosphere*, *detail*, and *storytelling*."
+            text="I am a *B.Tech student* in *Artificial Intelligence & Machine Learning*, building intelligent systems that turn data into useful predictions, automation, and human-centered solutions."
             delay={30}
             animateBy="words"
             direction="bottom"
@@ -74,7 +83,7 @@ export default function Hero() {
             className="text-base md:text-[17px] text-white/60 font-medium leading-[1.6]"
           />
           <BlurText
-            text="I mainly work with React, Shopify, Flutter, editing, and visual design, combining development with *cinematic* styling and *modern* user experiences."
+            text="I work with Python, TensorFlow, PyTorch, scikit-learn, deep learning, computer vision, NLP, and MLOps to design reliable and scalable AI solutions."
             delay={22}
             animateBy="words"
             direction="bottom"
@@ -82,7 +91,7 @@ export default function Hero() {
             className="text-xs md:text-sm text-white/40 font-light leading-relaxed"
           />
           <BlurText
-            text="So far, I’ve completed *6* *websites*, edited *75+* *videos*, and created *500+* *photo* *edits* and visual concepts. Currently, I’m focusing on a *job* *app* and a *billing* *app* while continuing to explore *creative* *development* and *interactive* *design*."
+            text="My coursework and projects span *machine learning*, *deep learning*, *computer vision*, *natural language processing*, and *generative AI*. I focus on applying these skills through practical AI projects and production-ready engineering."
             delay={15}
             animateBy="words"
             direction="bottom"

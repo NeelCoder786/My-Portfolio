@@ -83,6 +83,23 @@ async function isAdmin() {
 }
 
 export async function GET(request) {
+  if (!supabase) {
+    return NextResponse.json({
+      totalVisits: 0,
+      todayVisits: 0,
+      totalClicks: 0,
+      totalReviews: 0,
+      activeUsers: 0,
+      topSearches: [],
+      recentVisits: [],
+      clicksByLabel: [],
+      visitsByPage: [],
+      visitsBySource: [],
+      aiVisits: [],
+      visitsPerDay: [],
+      visitsByCountry: [],
+    });
+  }
   if (!(await isAdmin())) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }

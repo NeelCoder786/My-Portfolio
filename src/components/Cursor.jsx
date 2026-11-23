@@ -8,11 +8,12 @@ export default function Cursor() {
 
   useEffect(() => {
     // pointer: coarse → touchscreen; pointer: fine → mouse/trackpad
-    setIsTouch(window.matchMedia("(pointer: coarse)").matches);
+    const coarse = window.matchMedia("(pointer: coarse)").matches;
+    setIsTouch(coarse);
   }, []);
 
   useEffect(() => {
-    if (isTouch !== false) return;  // skip if touch OR still unknown
+    if (isTouch !== false) return;  // skip touch/tablet OR still unknown
     const el = cursorRef.current;
     if (!el) return;
 
@@ -21,12 +22,19 @@ export default function Cursor() {
     let scale = 1;
     let targetScale = 1;
     let raf = null;
+    let lastMove = 0;
 
-    const onMove = (e) => { mx = e.clientX; my = e.clientY; };
-    const onEnter = () => { targetScale = 2.6; };
-    const onLeave = () => { targetScale = 1; };
+    const onMove = (e) => {
+      mx = e.clientX;
+      my = e.clientY;
+      lastMove = performance.now();
+    };
+    const startFrame = () => {
+      if (!raf) raf = requestAnimationFrame(frame);
+    };
+    const onEnter = () => { targetScale = 2.6; startFrame(); };
+    const onLeave = () => { targetScale = 1; startFrame(); };
 
-    window.addEventListener("mousemove", onMove, { passive: true });
     document.querySelectorAll("a, button").forEach((node) => {
       node.addEventListener("mouseenter", onEnter);
       node.addEventListener("mouseleave", onLeave);
@@ -42,19 +50,29 @@ export default function Cursor() {
     observer.observe(document.body, { childList: true, subtree: true });
 
     const frame = () => {
-      raf = requestAnimationFrame(frame);
-      cx += (mx - cx) * 0.11;
-      cy += (my - cy) * 0.11;
-      scale += (targetScale - scale) * 0.10;
+      cx += (mx - cx) * 0.18;
+      cy += (my - cy) * 0.18;
+      scale += (targetScale - scale) * 0.16;
       el.style.transform =
         `translate(${cx}px,${cy}px) translate(-50%,-50%) scale(${scale})`;
+      el.style.opacity = performance.now() - lastMove < 900 ? "1" : "0";
+      const active =
+        Math.abs(mx - cx) > 0.1 ||
+        Math.abs(my - cy) > 0.1 ||
+        Math.abs(targetScale - scale) > 0.001;
+      if (active) raf = requestAnimationFrame(frame);
+      else raf = null;
     };
-    raf = requestAnimationFrame(frame);
+    const onMoveStart = (e) => {
+      onMove(e);
+      startFrame();
+    };
+    window.addEventListener("mousemove", onMoveStart, { passive: true });
 
     return () => {
       cancelAnimationFrame(raf);
       observer.disconnect();
-      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("mousemove", onMoveStart);
     };
   }, [isTouch]);
 

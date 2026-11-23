@@ -10,15 +10,31 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function PageShell({ children }) {
   useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
     const lenis = new Lenis({
-      lerp: 0.1,
+      lerp: 0.16,
       smoothWheel: true,
-      wheelMultiplier: 1,
+      wheelMultiplier: 0.85,
+      touchMultiplier: 1,
+      syncTouch: false,
+      autoRaf: false,
     });
-    lenis.on("scroll", ScrollTrigger.update);
-    gsap.ticker.add((time) => lenis.raf(time * 1000));
-    gsap.ticker.lagSmoothing(0);
-    return () => lenis.destroy();
+    let frame = null;
+    lenis.on("scroll", () => {
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        frame = null;
+        ScrollTrigger.update();
+      });
+    });
+    const tick = (time) => lenis.raf(time * 1000);
+    gsap.ticker.add(tick);
+    return () => {
+      lenis.destroy();
+      gsap.ticker.remove(tick);
+      if (frame) cancelAnimationFrame(frame);
+    };
   }, []);
 
   return (

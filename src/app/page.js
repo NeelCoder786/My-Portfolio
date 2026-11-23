@@ -22,31 +22,39 @@ export default function Home() {
   const footerRef   = useRef(null);
 
   useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
     const lenis = new Lenis({
-      lerp: 0.1, // More responsive, less lag
+      lerp: 0.16,
       smoothWheel: true,
-      wheelMultiplier: 1, // Normal scroll speed
+      wheelMultiplier: 0.85,
+      touchMultiplier: 1,
+      syncTouch: false,
+      autoRaf: false,
     });
 
+    let blurFrame = null;
     lenis.on("scroll", () => {
-      ScrollTrigger.update();
-      if (blurWrapRef.current && footerRef.current) {
-        const footerTop = footerRef.current.getBoundingClientRect().top;
-        const vh = window.innerHeight;
-        // opacity = 1 while footer is below viewport, fades as footer enters
-        const opacity = footerTop >= vh ? 1 : Math.max(0, footerTop / vh);
-        blurWrapRef.current.style.opacity = opacity;
-      }
-
+      if (blurFrame) return;
+      blurFrame = requestAnimationFrame(() => {
+        blurFrame = null;
+        ScrollTrigger.update();
+        if (blurWrapRef.current && footerRef.current) {
+          const footerTop = footerRef.current.getBoundingClientRect().top;
+          const vh = window.innerHeight;
+          const opacity = footerTop >= vh ? 1 : Math.max(0, footerTop / vh);
+          blurWrapRef.current.style.opacity = opacity;
+        }
+      });
     });
 
     const tick = (time) => { lenis.raf(time * 1000); };
     gsap.ticker.add(tick);
-    gsap.ticker.lagSmoothing(0);
 
     return () => {
       lenis.destroy();
       gsap.ticker.remove(tick);
+      if (blurFrame) cancelAnimationFrame(blurFrame);
     };
   }, []);
 

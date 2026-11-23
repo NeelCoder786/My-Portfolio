@@ -1,13 +1,15 @@
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
 /** @type {import('next').NextConfig} */
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const nextConfig = {
+  turbopack: {
+    root: __dirname,
+  },
   // ── Compiler optimisations ────────────────────────────────────────
   compiler: {
     removeConsole: process.env.NODE_ENV === "production",
-  },
-
-  // ── Experimental ─────────────────────────────────────────────────
-  experimental: {
-    optimizeCss: true,
   },
 
   // ── Image optimisation ────────────────────────────────────────────

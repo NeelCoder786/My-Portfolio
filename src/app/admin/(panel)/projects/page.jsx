@@ -4,10 +4,11 @@ import { useRouter } from 'next/navigation';
 import { FiPlus, FiTrash2, FiImage, FiCheckCircle, FiEye, FiEyeOff, FiEdit3, FiX, FiExternalLink, FiSearch, FiMonitor } from "react-icons/fi";
 import gsap from 'gsap';
 const CATEGORIES = [
-  "Website",
-  "Designs",
-  "Photos",
-  "Videos"
+  "Machine Learning",
+  "Computer Vision",
+  "NLP",
+  "Generative AI",
+  "MLOps"
 ];
 const convertToWebP = (file) => {
   return new Promise((resolve, reject) => {
@@ -44,7 +45,7 @@ const convertToWebP = (file) => {
 const EMPTY = {
   title: '',
   description: '',
-  category: 'Website',
+  category: 'Machine Learning',
   tech: '',
   client: '',
   month: '',
@@ -80,12 +81,25 @@ export default function ArchiveAdmin() {
     fetch('/api/works?all=true')
       .then(async (r) => {
         if (r.status === 401) { router.push('/admin/login'); return null; }
-        try { return await r.json(); } catch { return null; }
+        const data = await r.json().catch(() => null);
+        if (!r.ok) {
+          throw new Error(data?.error || `Unable to load projects (${r.status})`);
+        }
+        return data;
       })
       .then((data) => {
-        const sorted = (data || []).sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0));
+        if (data === null) return;
+        if (!Array.isArray(data)) {
+          throw new Error('The projects response was not a list.');
+        }
+        const sorted = [...data].sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0));
         setWorks(sorted);
         setFiltered(sorted);
+      })
+      .catch((error) => {
+        setSaveError(error.message || 'Unable to load projects.');
+      })
+      .finally(() => {
         setLoading(false);
       });
   };
@@ -94,7 +108,7 @@ export default function ArchiveAdmin() {
 
   useEffect(() => {
     const results = works.filter(p =>
-      p.title.toLowerCase().includes(search.toLowerCase()) ||
+      p.title?.toLowerCase().includes(search.toLowerCase()) ||
       p.tech?.toLowerCase().includes(search.toLowerCase()) ||
       p.category?.toLowerCase().includes(search.toLowerCase())
     );
@@ -113,7 +127,7 @@ export default function ArchiveAdmin() {
     setForm({
       title:       p.title       || '',
       description: p.description || '',
-      category:    p.category    || 'Website',
+      category:    p.category    || 'Machine Learning',
       tech:        p.tech        || '',
       client:      p.client      || '',
       month:       p.month       || '',
@@ -353,33 +367,37 @@ export default function ArchiveAdmin() {
               {(() => {
                 const getTitle = () => {
                   switch (form.category) {
-                    case 'Designs': return 'Design Name *';
-                    case 'Photos': return 'Photo Shoot Name *';
-                    case 'Videos': return 'Video Title *';
+                    case 'Computer Vision': return 'Computer Vision Project Name *';
+                    case 'NLP': return 'NLP Project Name *';
+                    case 'Generative AI': return 'AI Application Name *';
+                    case 'MLOps': return 'MLOps Project Name *';
                     default: return 'Project Title *';
                   }
                 };
                 const getTitlePh = () => {
                   switch (form.category) {
-                    case 'Designs': return 'e.g. Neo-Brutalism Poster';
-                    case 'Photos': return 'e.g. Urban Architecture';
-                    case 'Videos': return 'e.g. Cinematic Reel';
+                    case 'Computer Vision': return 'e.g. Object Detection System';
+                    case 'NLP': return 'e.g. Intelligent Text Assistant';
+                    case 'Generative AI': return 'e.g. AI Document Agent';
+                    case 'MLOps': return 'e.g. Automated Model Pipeline';
                     default: return 'Project Title';
                   }
                 };
                 const getTechLabel = () => {
                   switch (form.category) {
-                    case 'Designs': return 'Design Tools';
-                    case 'Photos': return 'Camera / Gear';
-                    case 'Videos': return 'Software / Gear';
+                    case 'Computer Vision': return 'Vision Stack';
+                    case 'NLP': return 'NLP Stack';
+                    case 'Generative AI': return 'AI Stack';
+                    case 'MLOps': return 'Deployment Stack';
                     default: return 'Tech Stack';
                   }
                 };
                 const getTechPh = () => {
                   switch (form.category) {
-                    case 'Designs': return 'e.g. Photoshop · Illustrator';
-                    case 'Photos': return 'e.g. Sony A7IV · 35mm f/1.4';
-                    case 'Videos': return 'e.g. Premiere Pro · RED Komodo';
+                    case 'Computer Vision': return 'e.g. PyTorch · OpenCV';
+                    case 'NLP': return 'e.g. Hugging Face · Transformers';
+                    case 'Generative AI': return 'e.g. Python · RAG · LLM';
+                    case 'MLOps': return 'e.g. Docker · MLflow · PostgreSQL';
                     default: return 'React · Next.js';
                   }
                 };
@@ -451,7 +469,7 @@ export default function ArchiveAdmin() {
                   placeholder="Design, Interior, Exhibition" className={inp} />
               </div>
 
-              {form.category === "Website" && (
+              {form.category !== "MLOps" && (
                 <div>
                   <label className={lbl}>External Link</label>
                   <input value={form.link}
@@ -485,7 +503,7 @@ export default function ArchiveAdmin() {
                     <button type="button" onClick={() => fileRef.current.click()}
                       className="px-6 py-6 h-full bg-white/5 border border-white/10 border-dashed rounded-xl text-xs text-white/60 hover:text-white hover:bg-white/10 transition-all uppercase tracking-widest font-bold w-full flex flex-col items-center justify-center gap-3">
                       <FiImage size={24} className="text-white/40" />
-                      {uploading ? "Uploading…" : form.category === "Videos" ? "Upload Cover/Video" : "Upload Cover Photo"}
+                      {uploading ? "Uploading…" : "Upload Project Cover"}
                     </button>
                     <input ref={fileRef} type="file" hidden accept="image/*,video/*" onChange={handleUpload} />
                   </div>
@@ -530,7 +548,7 @@ export default function ArchiveAdmin() {
                       className="w-full py-4 bg-white/5 border border-white/10 border-dashed rounded-xl text-xs text-white/60 hover:text-white hover:bg-white/10 transition-all uppercase tracking-widest font-bold flex items-center justify-center gap-2"
                     >
                       <FiImage size={16} />
-                      {galleryUploading ? "Uploading…" : form.category === "Videos" ? "Add Videos to Gallery" : "Add Images to Gallery"}
+                      {galleryUploading ? "Uploading…" : "Add Gallery Images"}
                     </button>
                     <input
                       ref={galleryFileRef}

@@ -3,6 +3,9 @@ import { NextResponse } from 'next/server';
 
 export async function POST(req) {
   try {
+    if (!supabase) {
+      return NextResponse.json({ success: true, active: 0 });
+    }
     const { sessionId, page } = await req.json();
     if (!sessionId) return NextResponse.json({ success: false }, { status: 400 });
     

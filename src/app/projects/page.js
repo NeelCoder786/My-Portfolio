@@ -4,13 +4,13 @@ import Navbar from "../../components/Navbar";
 import ProjectsPage from "../../views/projects";
 
 export const metadata = {
-  title:       "Projects — Case Studies & Client Work by Sarang",
-  description: "Explore detailed case studies of Sarang's freelance projects — website development, video editing, and design work with client testimonials and tech breakdowns.",
-  keywords:    ["portfolio projects", "case studies", "freelance work", "client projects"],
+  title:       "Projects — AI, Machine Learning & Data Science Work by Neel Sharma",
+  description: "Explore AI, machine learning, deep learning, computer vision, NLP, and MLOps projects built by Neel Sharma.",
+  keywords:    ["AI projects", "machine learning projects", "computer vision", "NLP", "MLOps", "case studies"],
   alternates:  { canonical: "https://sarang-space.site/projects" },
   openGraph: {
-    title: "Projects — Sarang | Case Studies & Client Work",
-    description: "Detailed case studies of web development, video editing, and design projects by Sarang.",
+    title: "Projects - Neel Sharma - Portfolio",
+    description: "Detailed case studies of machine learning, deep learning, computer vision, NLP, and MLOps projects.",
   },
 };
 

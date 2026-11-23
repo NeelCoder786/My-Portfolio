@@ -132,3 +132,29 @@ CREATE POLICY "Public Access" ON storage.objects FOR SELECT USING (bucket_id = '
 CREATE POLICY "Admin Upload" ON storage.objects FOR INSERT WITH CHECK (bucket_id = 'projects');
 CREATE POLICY "Admin Update" ON storage.objects FOR UPDATE USING (bucket_id = 'projects');
 CREATE POLICY "Admin Delete" ON storage.objects FOR DELETE USING (bucket_id = 'projects');
+
+-- Ensure the API roles can access the public tables.
+GRANT USAGE ON SCHEMA public TO anon, authenticated, service_role;
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO anon, authenticated;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO service_role;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO service_role;
+
+-- Explicit table grants for existing databases whose roles may not inherit schema defaults.
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE public.works TO service_role;
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE public.projects TO service_role;
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE public.settings TO service_role;
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE public.reviews TO service_role;
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE public.inquiries TO service_role;
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE public.visits TO service_role;
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE public.searches TO service_role;
+GRANT SELECT, INSERT, UPDATE, DELETE ON TABLE public.ad_clicks TO service_role;
+
+-- Keep settings private and allow the server-side service role to bypass RLS.
+ALTER TABLE public.settings ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF EXISTS "Service role full access to settings" ON public.settings;
+CREATE POLICY "Service role full access to settings"
+  ON public.settings
+  FOR ALL
+  TO service_role
+  USING (true)
+  WITH CHECK (true);
