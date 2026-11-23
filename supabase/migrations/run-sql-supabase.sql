@@ -124,6 +124,13 @@ INSERT INTO storage.buckets (id, name, public)
 VALUES ('projects', 'projects', true)
 ON CONFLICT (id) DO NOTHING;
 
+INSERT INTO storage.buckets (id, name, public)
+VALUES
+  ('profile-images', 'profile-images', true),
+  ('resumes', 'resumes', true),
+  ('project-photos', 'project-photos', true)
+ON CONFLICT (id) DO NOTHING;
+
 -- Storage policies for projects bucket
 -- Allows anyone to view project images
 CREATE POLICY "Public Access" ON storage.objects FOR SELECT USING (bucket_id = 'projects');
@@ -132,6 +139,22 @@ CREATE POLICY "Public Access" ON storage.objects FOR SELECT USING (bucket_id = '
 CREATE POLICY "Admin Upload" ON storage.objects FOR INSERT WITH CHECK (bucket_id = 'projects');
 CREATE POLICY "Admin Update" ON storage.objects FOR UPDATE USING (bucket_id = 'projects');
 CREATE POLICY "Admin Delete" ON storage.objects FOR DELETE USING (bucket_id = 'projects');
+
+-- Public read access for image and resume buckets
+DROP POLICY IF EXISTS "Public Profile Images" ON storage.objects;
+CREATE POLICY "Public Profile Images"
+  ON storage.objects FOR SELECT
+  USING (bucket_id = 'profile-images');
+
+DROP POLICY IF EXISTS "Public Project Photos" ON storage.objects;
+CREATE POLICY "Public Project Photos"
+  ON storage.objects FOR SELECT
+  USING (bucket_id = 'project-photos');
+
+DROP POLICY IF EXISTS "Public Resumes" ON storage.objects;
+CREATE POLICY "Public Resumes"
+  ON storage.objects FOR SELECT
+  USING (bucket_id = 'resumes');
 
 -- Ensure the API roles can access the public tables.
 GRANT USAGE ON SCHEMA public TO anon, authenticated, service_role;

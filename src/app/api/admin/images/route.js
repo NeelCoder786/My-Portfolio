@@ -53,10 +53,19 @@ export async function POST(request) {
   const { data: buckets } = await supabase.storage.listBuckets();
   if (!buckets?.find((item) => item.name === bucket)) {
     const { error: bucketError } = await supabase.storage.createBucket(bucket, { public: true });
-    if (bucketError) return NextResponse.json({ error: bucketError.message }, { status: 500 });
+    if (bucketError && bucketError.message !== 'The resource already exists') {
+      return NextResponse.json({ error: `Unable to prepare profile-images bucket: ${bucketError.message}` }, { status: 500 });
+    }
   }
 
-  const extension = file.name.split('.').pop()?.toLowerCase() || 'jpg';
+  const extensionByMime = {
+    'image/jpeg': 'jpg',
+    'image/png': 'png',
+    'image/webp': 'webp',
+    'image/gif': 'gif',
+    'image/avif': 'avif',
+  };
+  const extension = extensionByMime[file.type] || 'jpg';
   const filename = `profile-${Date.now()}.${extension}`;
   const buffer = Buffer.from(await file.arrayBuffer());
   const { error: uploadError } = await supabase.storage
@@ -76,4 +85,47 @@ export async function POST(request) {
   if (settingsError) return NextResponse.json({ error: settingsError.message }, { status: 500 });
 
   return NextResponse.json(image);
+}
+
+export async function DELETE() {
+  if (!(await isAdmin())) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+  if (!supabase) {
+    return NextResponse.json({ error: 'Database is not configured' }, { status: 503 });
+  }
+
+  const { data: current } = await supabase
+    .from('settings')
+    .select('value')
+    .eq('key', 'profile_image')
+    .maybeSingle();
+
+  const profileUrl = current?.value?.profile;
+  if (profileUrl) {
+    try {
+      const url = new URL(profileUrl);
+      const marker = '/storage/v1/object/public/profile-images/';
+      const markerIndex = url.pathname.indexOf(marker);
+      if (markerIndex >= 0) {
+        const filename = decodeURIComponent(url.pathname.slice(markerIndex + marker.length));
+        if (filename) {
+          await supabase.storage.from('profile-images').remove([filename]);
+        }
+      }
+    } catch {
+      // The database setting can still be cleared even if the old URL is malformed.
+    }
+  }
+
+  const { error } = await supabase
+    .from('settings')
+    .delete()
+    .eq('key', 'profile_image');
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
+  return NextResponse.json({ profile: '/photo/neel-profile.png' });
 }
