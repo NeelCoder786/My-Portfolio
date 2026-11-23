@@ -10,17 +10,18 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function PageShell({ children }) {
   useEffect(() => {
-    if (
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
-      window.matchMedia("(pointer: coarse)").matches
-    ) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const isTouch = window.matchMedia("(pointer: coarse)").matches;
 
     const lenis = new Lenis({
-      lerp: 0.16,
+      lerp: isTouch ? 0.105 : 0.16,
       smoothWheel: true,
       wheelMultiplier: 0.85,
-      touchMultiplier: 1,
-      syncTouch: false,
+      touchMultiplier: isTouch ? 0.9 : 1,
+      syncTouch: isTouch,
+      syncTouchLerp: 0.105,
+      touchInertiaExponent: 1.35,
       autoRaf: false,
     });
     let frame = null;
