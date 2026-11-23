@@ -65,6 +65,8 @@ export default function ImagesAdminPage() {
       clearPending();
       setProfileImage('/photo/neel-profile.png');
       setUploaded(null);
+      localStorage.removeItem('profile_image');
+      window.dispatchEvent(new CustomEvent('profile-image-update', { detail: data }));
       setSuccess('Profile image removed. Default image restored.');
     } catch (removeError) {
       setError(removeError.message || 'Unable to remove image.');
@@ -88,6 +90,13 @@ export default function ImagesAdminPage() {
       setProfileImage(data.profile);
       setUploaded(data);
       clearPending();
+      localStorage.setItem('profile_image', JSON.stringify(data));
+      window.dispatchEvent(new CustomEvent('profile-image-update', { detail: data }));
+      if (typeof BroadcastChannel !== 'undefined') {
+        const channel = new BroadcastChannel('profile-image');
+        channel.postMessage(data);
+        channel.close();
+      }
       setSuccess('Profile image updated.');
     } catch (uploadError) {
       setError(uploadError.message || 'Unable to upload image.');

@@ -21,18 +21,41 @@ const renderParsedText = (text) => {
   });
 };
 
-export default function AboutPage() {
+export default function AboutPage({ initialProfileImage = "/photo/neel-profile.png" }) {
   const ref = useRef(null);
   const router = useRouter();
-  const [profileImage, setProfileImage] = useState("/photo/neel-profile.png");
+  const [profileImage, setProfileImage] = useState(initialProfileImage);
 
   useEffect(() => {
-    fetch("/api/admin/images")
+    const refreshProfile = () => {
+      const cacheBust = Date.now();
+      fetch(`/api/admin/images?t=${cacheBust}`, { cache: "no-store", headers: { "Cache-Control": "no-cache" } })
       .then(r => r.ok ? r.json() : null)
       .then(data => {
-        if (data?.profile) setProfileImage(data.profile);
+        if (data?.profile) {
+          const url = data.profile;
+          if (!url.startsWith("http")) {
+            setProfileImage(url);
+          } else {
+            const separator = url.includes("?") ? "&" : "?";
+            const cacheKey = data.uploadedAt ? encodeURIComponent(data.uploadedAt) : Date.now();
+            setProfileImage(`${url}${separator}v=${cacheKey}`);
+          }
+        }
       })
       .catch(() => {});
+    };
+
+    refreshProfile();
+    window.addEventListener("profile-image-update", refreshProfile);
+    const channel = typeof BroadcastChannel !== "undefined"
+      ? new BroadcastChannel("profile-image")
+      : null;
+    if (channel) channel.onmessage = () => refreshProfile();
+    return () => {
+      window.removeEventListener("profile-image-update", refreshProfile);
+      channel?.close();
+    };
   }, []);
 
   useEffect(() => {
