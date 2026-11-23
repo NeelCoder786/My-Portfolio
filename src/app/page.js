@@ -22,7 +22,10 @@ export default function Home() {
   const footerRef   = useRef(null);
 
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+      window.matchMedia("(pointer: coarse)").matches
+    ) return;
 
     const lenis = new Lenis({
       lerp: 0.16,

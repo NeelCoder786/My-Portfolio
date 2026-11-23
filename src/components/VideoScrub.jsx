@@ -6,15 +6,24 @@ export default function VideoScrub() {
   const revRef = useRef(null);
   const [mounted, setMounted] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-
   useEffect(() => {
-    const isPhone = window.innerWidth <= 1023;
-    setIsMobile(isPhone);
+    const mobileQuery = window.matchMedia("(max-width: 1023px)");
+    setIsMobile(mobileQuery.matches);
     setMounted(true);
 
-    const checkMobile = () => setIsMobile(window.innerWidth <= 1023);
-    window.addEventListener('resize', checkMobile, { passive: true });
-    return () => window.removeEventListener('resize', checkMobile);
+    let dimensionTimer = null;
+    const onDimensionChange = (event) => {
+      window.clearTimeout(dimensionTimer);
+      dimensionTimer = window.setTimeout(() => {
+        setIsMobile(event.matches);
+      }, 120);
+    };
+
+    mobileQuery.addEventListener("change", onDimensionChange);
+    return () => {
+      window.clearTimeout(dimensionTimer);
+      mobileQuery.removeEventListener("change", onDimensionChange);
+    };
   }, []);
 
   useEffect(() => {
@@ -26,6 +35,7 @@ export default function VideoScrub() {
 
     let duration   = 0;
     let raf        = null;
+    let reversePreloadTimer = null;
     let prevY      = window.scrollY;
     let prevT      = performance.now();
     let vel        = 0;
@@ -55,7 +65,11 @@ export default function VideoScrub() {
     // recalc after fonts/images load
     window.addEventListener("load", calcVideoEnd, { once: true });
 
-    const onResize = () => { calcVideoEnd(); };
+    let resizeTimer = null;
+    const onResize = () => {
+      window.clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(calcVideoEnd, 120);
+    };
     window.addEventListener("resize", onResize, { passive: true });
 
     const show = (el) => {
@@ -107,7 +121,7 @@ export default function VideoScrub() {
 
     const frame = (now) => {
       raf = requestAnimationFrame(frame);
-      if (now - lastFrame < 32) return;
+      if (now - lastFrame < 16) return;
       lastFrame = now;
       if (!duration) return;
 
@@ -195,7 +209,7 @@ export default function VideoScrub() {
       raf = requestAnimationFrame(frame);
 
       // Delay preloading the reverse video to prioritize initial page load performance
-      setTimeout(() => {
+      reversePreloadTimer = setTimeout(() => {
         rev.play().then(() => { rev.pause(); rev.currentTime = duration; }).catch(() => {});
       }, 3000);
     };
@@ -205,6 +219,8 @@ export default function VideoScrub() {
 
     return () => {
       cancelAnimationFrame(raf);
+      window.clearTimeout(reversePreloadTimer);
+      window.clearTimeout(resizeTimer);
       window.removeEventListener("resize", onResize);
       fwd.removeEventListener("seeked", flushFwd);
       rev.removeEventListener("seeked", flushRev);
@@ -227,13 +243,30 @@ export default function VideoScrub() {
     if (!isMobile) return;
 
     const TRANSITION_ZONE = 0.35; // fraction of section height used for transition
+    let sectionTops = [];
+    let sectionHeights = [];
+    let cacheFrame = null;
+
+    const cacheSectionGeometry = () => {
+      if (cacheFrame) cancelAnimationFrame(cacheFrame);
+      cacheFrame = requestAnimationFrame(() => {
+        sectionTops = SECTION_IMAGES.map((sec) =>
+          sec.id ? document.getElementById(sec.id)?.offsetTop ?? 0 : 0
+        );
+        sectionHeights = SECTION_IMAGES.map((sec) =>
+          sec.id ? document.getElementById(sec.id)?.offsetHeight ?? 0 : window.innerHeight
+        );
+      });
+    };
+    cacheSectionGeometry();
+    window.addEventListener("resize", cacheSectionGeometry, { passive: true });
+    window.addEventListener("load", cacheSectionGeometry, { once: true }); // fraction of section height used for transition
 
     const getIndex = () => {
       const scrollY = window.scrollY;
       const vh = window.innerHeight;
       for (let i = SECTION_IMAGES.length - 1; i >= 1; i--) {
-        const el = document.getElementById(SECTION_IMAGES[i].id);
-        if (el && scrollY + vh * 0.5 >= el.offsetTop) return i;
+        if (scrollY + vh * 0.5 >= sectionTops[i]) return i;
       }
       return 0;
     };
@@ -242,10 +275,8 @@ export default function VideoScrub() {
       // How far into the NEXT section's transition zone are we?
       const nextIdx = idx + 1;
       if (nextIdx >= SECTION_IMAGES.length) return 0;
-      const nextEl = document.getElementById(SECTION_IMAGES[nextIdx].id);
-      if (!nextEl) return 0;
-      const sectionTop = nextEl.offsetTop;
-      const zone = nextEl.offsetHeight * TRANSITION_ZONE;
+      const sectionTop = sectionTops[nextIdx];
+      const zone = sectionHeights[nextIdx] * TRANSITION_ZONE;
       const scrollY = window.scrollY;
       const vh = window.innerHeight;
       const rel = (scrollY + vh * 0.5) - (sectionTop - zone);
@@ -255,22 +286,44 @@ export default function VideoScrub() {
     let rafId = null;
     let lastIdx = 0;
     let lastProg = 0;
+    let smoothProg = 0;
+    let smoothIdx = 0;
+    let hasSmoothState = false;
+    let lastFrame = 0;
 
     const frame = () => {
       rafId = requestAnimationFrame(frame);
+      if (!sectionTops.length) return;
+      const now = performance.now();
+      if (now - lastFrame < 16) return;
+      lastFrame = now;
       const idx  = getIndex();
       const prog = getProgress(idx); // 0→1 as next section approaches
 
-      if (idx === lastIdx && Math.abs(prog - lastProg) < 0.001) return;
+      if (!hasSmoothState) {
+        smoothIdx = idx;
+        smoothProg = prog;
+        hasSmoothState = true;
+      } else {
+        smoothProg += (prog - smoothProg) * 0.12;
+      }
+      if (idx !== smoothIdx) {
+        smoothIdx += Math.sign(idx - smoothIdx);
+        smoothProg = prog;
+      }
+      const smoothedIdx = smoothIdx;
+      const smoothedProg = smoothProg;
+
+      if (smoothedIdx === lastIdx && Math.abs(smoothedProg - lastProg) < 0.001) return;
       lastIdx  = idx;
-      lastProg = prog;
+      lastProg = smoothedProg;
 
       const layers = mobileLayersRef.current;
       if (!layers.length) return;
 
       // Current section image: sits at 0, slides up as next section comes in
-      const curLayer = layers[idx];
-      const nxtLayer = layers[idx + 1];
+      const curLayer = layers[smoothedIdx];
+      const nxtLayer = layers[smoothedIdx + 1];
 
       // Lazy-load bg image when layer is about to become visible
       const lazyLoad = (l) => {
@@ -284,15 +337,15 @@ export default function VideoScrub() {
       // Reset all layers
       layers.forEach((l, i) => {
         if (!l) return;
-        if (i === idx) {
-          l.style.transform = `translateY(${-(prog * 8)}%)`;
-          l.style.opacity   = `${1 - prog * 0.6}`;
+        if (i === smoothedIdx) {
+          l.style.transform = `translateY(${-(smoothedProg * 8)}%)`;
+          l.style.opacity   = `${1 - smoothedProg * 0.6}`;
           l.style.zIndex    = '1';
-        } else if (i === idx + 1 && nxtLayer) {
-          l.style.transform = `translateY(${(1 - prog) * 100}%)`;
-          l.style.opacity   = `${0.4 + prog * 0.6}`;
+        } else if (i === smoothedIdx + 1 && nxtLayer) {
+          l.style.transform = `translateY(${(1 - smoothedProg) * 100}%)`;
+          l.style.opacity   = `${0.4 + smoothedProg * 0.6}`;
           l.style.zIndex    = '2';
-        } else if (i < idx) {
+        } else if (i < smoothedIdx) {
           l.style.transform = 'translateY(-8%)';
           l.style.opacity   = '0';
           l.style.zIndex    = '0';
@@ -305,7 +358,12 @@ export default function VideoScrub() {
     };
 
     rafId = requestAnimationFrame(frame);
-    return () => cancelAnimationFrame(rafId);
+    return () => {
+      cancelAnimationFrame(rafId);
+      cancelAnimationFrame(cacheFrame);
+      window.removeEventListener("resize", cacheSectionGeometry);
+      window.removeEventListener("load", cacheSectionGeometry);
+    };
   }, [isMobile, mounted]);
 
   // Never render on server — eliminates SSR/client hydration mismatch
